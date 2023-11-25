@@ -1,28 +1,11 @@
 on:
   workflow_call:
-name: metrics pipeline
+name: Sonar
 runs: 
   using: 'composite'
   steps:
-    - uses: actions/checkout@v2
-
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
-
-    - name: Install dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
-
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: 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
-        SONAR_TOKEN: sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f
-
+    - name: pipeline metrics
+      shell: bash
+      run: |
+          cd /home/gitlab/.dotnet/tools/.store/dotnet-sonarscanner/5.15.0/dotnet-sonarscanner/5.15.0/tools/netcoreapp3.0/any
+          ./sonar-scanner-4.8.1.3023/bin/sonar-scanner -X -D sonar.projectKey=api
