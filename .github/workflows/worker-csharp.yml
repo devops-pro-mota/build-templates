@@ -25,12 +25,11 @@ jobs:
           with:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
+            path: 'build-templates/'
           
          # metricas
         - uses: ./build-templates/.github/workflows/actions/validacoes
           name: Metrics Pipeline
-          with:
-           ambiente: ${{ secrets.SNOWUSER }}
           env:      
             solution: ${{ github.event.inputs.solution }}
             environment: ${{ github.event.inputs.environment }}
