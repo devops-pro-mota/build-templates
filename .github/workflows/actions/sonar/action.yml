@@ -1,49 +1,28 @@
 on:
   workflow_call:
-name: Bem sucedido
+name: metrics pipeline
 runs: 
   using: 'composite'
   steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 7.x
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+    - name: Install dependencies
+      run: dotnet restore
 
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v1
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
 
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: bash
-        run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
 
-      - name: Install project dependencies
-        run: dotnet restore
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f
+        SONAR_TOKEN: sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f
 
-      - name: Test and analyze
-        env:
-          #GITHUB_TOKEN: ${{ secrets.GITHUBDEV_TOKEN }}
-          SONAR_TOKEN: sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f
-        shell: bash
-        run: |
-            ./.sonar/scanner/dotnet-sonarscanner begin /k:"sonar" /d:sonar.token="sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f" /d:sonar.host.url="http://192.168.0.201:9000"
-              dotnet build
-            ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f"
-
-      - name: Build
-        shell: bash
-        run: dotnet build --configuration Release --no-restore
