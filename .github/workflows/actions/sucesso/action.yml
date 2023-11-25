@@ -1,0 +1,33 @@
+on:
+  workflow_call:
+name: Bem sucedido
+runs: 
+  using: 'composite'
+  steps:
+    - name: Bem sucedido
+      shell: bash
+      run: |
+          echo "Ambiente do deploy ${{ env.environment }}"
+          echo "RUN ID $GITHUB_RUN_ID"
+          echo "REPO NAME: $GITHUB_REPOSITORY"
+          projeto=$(echo "$GITHUB_REPOSITORY") | cut -d "/" -f 2
+          projeto=${GITHUB_REPOSITORY##*/}
+          echo "Nome repo: ${{env.reponame}}"
+
+          echo "Projeto: $projeto"
+          echo "Branch: $GITHUB_REF_NAME"
+          echo "Status: $GITHUB_RUN_STATUS"
+          echo "Usuario: $GITHUB_TRIGGERING_ACTOR"
+ 
+          
+          # atualizar api de metrics
+          echo "PUT API"
+          curl -k -X 'PUT' \
+                    'https://192.168.0.92:32768/api/Evento/$GITHUB_RUN_ID' \
+                    -H 'accept: text/plain' \
+                    -H 'Content-Type: application/json' \
+                    -d '{
+                          "buildId": "'$GITHUB_RUN_ID'",
+                          "nomeJob": "${{github.workflow}}",
+                          "statusRun": "sucess"
+                        }'

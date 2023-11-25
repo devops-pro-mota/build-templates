@@ -1,0 +1,27 @@
+on:
+  workflow_call:
+name: metrics pipeline
+runs: 
+  using: 'composite'
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: your-aws-region
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build and Push Docker Image
+      env:
+        ECR_REGISTRY: your-aws-account-number.dkr.ecr.your-aws-region.amazonaws.com
+        IMAGE_TAG: latest
+      run: |
+        docker build -t $ECR_REGISTRY/your-image-name:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/your-image-name:$IMAGE_TAG

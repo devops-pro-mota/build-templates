@@ -1,0 +1,170 @@
+name: ci-cd-csharp
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      Gmud:
+        type: string
+      environment:
+        required: true
+        type: string
+      namespace:
+        required: true
+        type: string  
+
+jobs:
+    pipeline-build-dev:
+      runs-on: linux
+      if: ${{ github.event.inputs.environment == 'dev' }}
+      steps:
+        - name: Check out repository
+          uses: actions/checkout@v3
+        - run: |
+            echo "Env: ${{ github.event.inputs.environment }}" 
+            echo "Branch: ${{ github.event.inputs.branch }}"
+        - name: Check out repository build-templates
+          uses: actions/checkout@v3
+          with:
+            repository: 'Buzinho2022/build-templates'
+            ref: 'refs/heads/main'
+            #token: '${{ secrets.GH_TOKEN }}'
+            path: 'build-templates/'
+          # normaliza as variaveis de ambiente  
+        - name: Variaveis iniciais
+          uses: ./build-templates/.github/workflows/actions/vars
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}
+        #   # executa step docker build e push
+        # - uses: ./build-templates/.github/workflows/release/docker-hub
+        #   name: Docker Build and Push
+        #   env:      
+        #     environment: ${{ github.event.inputs.environment }}
+        #     namespace: ${{ github.event.inputs.namespace }}
+
+        - uses: ./build-templates/.github/workflows/actions/validacoes
+          name: Metrics Pipeline
+          with:
+           ambiente: ${{ secrets.SNOWUSER }}
+          env:      
+            solution: ${{ github.event.inputs.solution }}
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}  
+          #executar step apenas se der erro 
+        - uses: ./build-templates/.github/workflows/actions/falha
+          name: Falha de execução
+          if: ${{ failure() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}
+          # executa step apenas se der sucesso
+        - uses: ./build-templates/.github/workflows/actions/sucesso
+          name: Sucesso de execução
+          if: ${{ success() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}
+          # adiciona step para validar sonar
+        - uses: ./build-templates/.github/workflows/actions/sonar
+          name: Sonar Validate
+
+    # deploy-docker-dev:
+    #   runs-on: linux
+    #   needs: pipeline-validade-sonar
+    #   steps:
+    #       # normaliza as variaveis de ambiente  
+    #     - name: Docker Build and Push
+    #       uses: ./build-templates/.github/workflows/actions/vars
+
+    # deploy-k8s-dev:
+    #   runs-on: linux
+    #   needs: deploy-docker-dev
+    #   steps:
+    #       # normaliza as variaveis de ambiente  
+    #     - name: Deploy cluster k8s
+    #       uses: ./build-templates/.github/workflows/actions/vars
+
+
+    pipeline-build-hml:
+      runs-on: linux
+      if: ${{ github.event.inputs.environment == 'hml' }}
+      steps:
+        - name: Check out repository
+          uses: actions/checkout@v3
+        - run: |
+            echo "Env: ${{ github.event.inputs.environment }}" 
+            echo "Branch: ${{ github.event.inputs.branch }}"
+        - name: Check out repository build-templates
+          uses: actions/checkout@v3
+          with:
+            repository: 'Buzinho2022/build-templates'
+            ref: 'refs/heads/main'
+            #token: '${{ secrets.GH_TOKEN }}'
+            path: 'build-templates/'
+  
+        - uses: ./build-templates/.github/workflows/actions/validacoes
+          name: Metrics Pipeline
+          with:
+           ambiente: ${{ secrets.SNOWUSER }}
+          env:      
+            solution: ${{ github.event.inputs.solution }}
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}      
+          #executar step apenas se der erro 
+        - uses: ./build-templates/.github/workflows/actions/falha
+          name: Falha de execução
+          if: ${{ failure() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}
+          # executa step apenas se der sucesso
+        - uses: ./build-templates/.github/workflows/actions/sucesso
+          name: Sucesso de execução
+          if: ${{ success() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}                    
+
+    pipeline-build-prd:
+      runs-on: linux
+      if: ${{ github.event.inputs.environment == 'prd' }}
+      steps:
+        - name: Check out repository
+          uses: actions/checkout@v3
+        - run: |
+            echo "Env: ${{ github.event.inputs.environment }}" 
+            echo "Branch: ${{ github.event.inputs.branch }}"
+        - name: Check out repository build-templates
+          uses: actions/checkout@v3
+          with:
+            repository: 'Buzinho2022/build-templates'
+            ref: 'refs/heads/main'
+            #token: '${{ secrets.GH_TOKEN }}'
+            path: 'build-templates/'
+  
+        - uses: ./build-templates/.github/workflows/actions/validacoes
+          name: Metrics Pipeline
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}  
+                       
+        - uses: ./build-templates/.github/workflows/actions/gmud
+          name: GMUD-Validate
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}
+          #executar step apenas se der erro 
+        - uses: ./build-templates/.github/workflows/actions/falha
+          name: Falha de execução
+          if: ${{ failure() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}
+          # executa step apenas se der sucesso
+        - uses: ./build-templates/.github/workflows/actions/sucesso
+          name: Sucesso de execução
+          if: ${{ success() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}            
+         

@@ -1,0 +1,18 @@
+on:
+  workflow_call:
+name: Docker Build and Push
+runs: 
+  using: 'composite'
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./
+        push: true
+        tags: rodrigomotadevops/${{ env.environment }}-${{env.projeto}}:latest
+        registry: docker.io
+        username: rodrigomotadevops
+        password: ${{ secrets.DOCKER_PASSWORD }}

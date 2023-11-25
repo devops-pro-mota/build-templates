@@ -1,0 +1,43 @@
+on:
+  workflow_call:
+name: metrics pipeline
+runs: 
+  using: 'composite'
+  steps:
+    - name: pipeline metrics
+      shell: bash
+      run: |
+          echo "Ambiente do deploy ${{ env.environment }}"
+          echo "RUN ID $GITHUB_RUN_ID"
+          echo "REPO NAME: $GITHUB_REPOSITORY"
+          projeto=$(echo "$GITHUB_REPOSITORY") | cut -d "/" -f 2
+          projeto=${GITHUB_REPOSITORY##*/}
+
+          echo "Projeto: $projeto"
+          echo "Branch: $GITHUB_REF_NAME"
+          echo "Status: $GITHUB_RUN_STATUS"
+          echo "Usuario: $GITHUB_TRIGGERING_ACTOR"
+ 
+          
+          echo "POST API"
+          if curl -k -X 'POST' \
+                    'https://192.168.0.92:32768/api/Evento' -H 'accept: text/plain' -H 'Content-Type: application/json' \
+                    -d '{
+                          "buildId": "'$GITHUB_RUN_ID'",
+                          "nomeJob": "'$projeto'",
+                          "usuario": "'$GITHUB_TRIGGERING_ACTOR'",
+                          "ambiente": "${{ env.environment }}",
+                          "statusRun": "running",
+                          "branch": "'$GITHUB_REF_NAME'",
+                          "gmud": "${{ env.Gmud }}"}' ;then
+              echo "POST Metrics OK"
+              sleep 5
+              exit 0
+             
+          fi
+           else
+             echo -e "\033[32m\033[1m Erro Post Metrics"
+             exit 1
+          fi               
+
+
