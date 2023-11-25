@@ -28,6 +28,7 @@ runs:
 
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: bash
         run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
 
       - name: Install project dependencies
@@ -37,10 +38,12 @@ runs:
         env:
           #GITHUB_TOKEN: ${{ secrets.GITHUBDEV_TOKEN }}
           SONAR_TOKEN: sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f
+        shell: bash
         run: |
             ./.sonar/scanner/dotnet-sonarscanner begin /k:"sonar" /d:sonar.token="sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f" /d:sonar.host.url="http://192.168.0.201:9000"
               dotnet build
             ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f"
 
       - name: Build
+        shell: bash
         run: dotnet build --configuration Release --no-restore
