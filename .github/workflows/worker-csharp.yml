@@ -14,7 +14,7 @@ on:
 
 jobs:
     pipeline-build-dev:
-      runs-on: linux
+      runs-on: Linux
       if: ${{ github.event.inputs.environment == 'dev' }}
       steps:
         - name: Check out repository
@@ -25,7 +25,7 @@ jobs:
         - name: Check out repository build-templates
           uses: actions/checkout@v3
           with:
-            repository: 'Buzinho2022/build-templates'
+            repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
             #token: '${{ secrets.GH_TOKEN }}'
             path: 'build-templates/'
@@ -97,7 +97,7 @@ jobs:
         - name: Check out repository build-templates
           uses: actions/checkout@v3
           with:
-            repository: 'Buzinho2022/build-templates'
+            repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
             #token: '${{ secrets.GH_TOKEN }}'
             path: 'build-templates/'
@@ -137,7 +137,7 @@ jobs:
         - name: Check out repository build-templates
           uses: actions/checkout@v3
           with:
-            repository: 'Buzinho2022/build-templates'
+            repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
             #token: '${{ secrets.GH_TOKEN }}'
             path: 'build-templates/'
