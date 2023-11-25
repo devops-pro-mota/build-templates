@@ -43,12 +43,12 @@ jobs:
           env:      
             environment: ${{ github.event.inputs.environment }}
             namespace: ${{ github.event.inputs.namespace }}
-        #   # executa step docker build e push
-        # - uses: ./build-templates/.github/workflows/release/docker-hub
-        #   name: Docker Build and Push
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
-        #     namespace: ${{ github.event.inputs.namespace }}
+          # executa step docker build e push
+        - uses: ./build-templates/.github/workflows/release/docker-hub
+          name: Docker Build and Push (Release)
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            projeto: ${{ github.event.repository.name }}
 
         - uses: ./build-templates/.github/workflows/actions/validacoes
           name: Metrics Pipeline
