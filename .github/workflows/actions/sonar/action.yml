@@ -23,6 +23,6 @@ runs:
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
-        GITHUB_TOKEN: sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f
+        GITHUB_TOKEN: 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
         SONAR_TOKEN: sqp_ebcfbc9ac0e70a5db84829a99903971ca59c1c2f
 
