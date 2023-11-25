@@ -15,7 +15,6 @@ on:
 jobs:
     pipeline-build-dev:
       runs-on: Linux
-      needs: DevSecOps-Validate
       if: ${{ github.event.inputs.environment == 'dev' }}
       steps:
         - name: Check out repository
