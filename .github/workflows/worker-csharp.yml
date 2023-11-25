@@ -27,7 +27,7 @@ jobs:
           with:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
-            token: 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
+            token: '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'
             path: 'build-templates/'
           
          # metricas
