@@ -4,6 +4,9 @@ name: metrics pipeline
 runs: 
   using: 'composite'
   steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
     - name: pipeline metrics
       shell: bash
       run: |
