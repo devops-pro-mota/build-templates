@@ -24,6 +24,12 @@ jobs:
             echo "Branch: ${{ github.event.inputs.branch }}"
         - name: Check out repository build-templates
           uses: actions/checkout@v3
+          with:
+            repository: 'devops-pro-mota/build-templates'
+            ref: 'refs/heads/main'
+            #token: '${{ secrets.GH_TOKEN }}'
+            path: 'build-templates/'
+          
          # metricas
         - uses: ./build-templates/.github/workflows/actions/validacoes
           name: Metrics Pipeline
