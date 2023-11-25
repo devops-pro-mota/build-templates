@@ -1,9 +1,12 @@
 on:
   workflow_call:
-name: Bem sucedido
+name: Docker pull 
 runs: 
   using: 'composite'
   steps:
-    - name: Bem sucedido
+    - name: pipeline metrics
       shell: bash
       run: |
+         docker pull rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID
+  
+  
