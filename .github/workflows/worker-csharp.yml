@@ -33,7 +33,9 @@ jobs:
           env:      
             solution: ${{ github.event.inputs.solution }}
             environment: ${{ github.event.inputs.environment }}
-            namespace: ${{ github.event.inputs.namespace }}     
+            namespace: ${{ github.event.inputs.namespace }}  
+        - name: Check out repository
+          uses: actions/checkout@v3            
      
 
     pipeline-build-dev:
