@@ -1,10 +1,10 @@
 on:
   workflow_call:
-name: Create namespace
+name: Deploy cluster
 runs: 
   using: 'composite'
   steps:
-    - name: Cria namespace
+    - name: Deploy cluster
       shell: bash
       run: |
         # selecionar contexto do kubernetes
