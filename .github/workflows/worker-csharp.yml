@@ -34,8 +34,7 @@ jobs:
             solution: ${{ github.event.inputs.solution }}
             environment: ${{ github.event.inputs.environment }}
             namespace: ${{ github.event.inputs.namespace }}  
-        - name: Check out repository
-          uses: actions/checkout@v3     
+
           # adiciona step para validar sonar
         - uses: ./build-templates/.github/workflows/actions/sonar
           name: Sonar Validate                     
