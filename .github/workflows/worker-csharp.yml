@@ -87,13 +87,17 @@ jobs:
             Gmud: ${{ github.event.inputs.Gmud }}
 
 
-    # deploy-docker-dev:
-    #   runs-on: linux
-    #   needs: pipeline-validade-sonar
-    #   steps:
-    #       # normaliza as variaveis de ambiente  
-    #     - name: Docker Build and Push
-    #       uses: ./build-templates/.github/workflows/actions/vars
+    deploy-k8s-dev:
+      runs-on: linux
+      needs: pipeline-build-dev
+      steps:
+          # deploy k8s
+        - name: Docker Build and Push
+          uses: ./build-templates/.github/workflows/actions/kubectl
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}
+      
 
     # deploy-k8s-dev:
     #   runs-on: linux
@@ -143,7 +147,18 @@ jobs:
           if: ${{ success() }}
           env:      
             environment: ${{ github.event.inputs.environment }}
-            Gmud: ${{ github.event.inputs.Gmud }}                    
+            Gmud: ${{ github.event.inputs.Gmud }} 
+
+    deploy-k8s-hml:
+      runs-on: linux
+      needs: pipeline-build-hml
+      steps:
+          # deploy k8s
+        - name: Docker Build and Push
+          uses: ./build-templates/.github/workflows/actions/kubectl
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}                               
 
     pipeline-build-prd:
       needs: Validate
@@ -187,5 +202,16 @@ jobs:
           if: ${{ success() }}
           env:      
             environment: ${{ github.event.inputs.environment }}
-            Gmud: ${{ github.event.inputs.Gmud }}            
+            Gmud: ${{ github.event.inputs.Gmud }}    
+
+    deploy-k8s-prd:
+      runs-on: linux
+      needs: pipeline-build-prd
+      steps:
+          # deploy k8s
+        - name: Docker Build and Push
+          uses: ./build-templates/.github/workflows/actions/kubectl
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}
          
