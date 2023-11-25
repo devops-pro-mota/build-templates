@@ -35,7 +35,10 @@ jobs:
             environment: ${{ github.event.inputs.environment }}
             namespace: ${{ github.event.inputs.namespace }}  
         - name: Check out repository
-          uses: actions/checkout@v3            
+          uses: actions/checkout@v3     
+          # adiciona step para validar sonar
+        - uses: ./build-templates/.github/workflows/actions/sonar
+          name: Sonar Validate                     
      
 
     pipeline-build-dev:
@@ -60,9 +63,7 @@ jobs:
         #     environment: ${{ github.event.inputs.environment }}
         #     namespace: ${{ github.event.inputs.namespace }}
             
-          # adiciona step para validar sonar
-        - uses: ./build-templates/.github/workflows/actions/sonar
-          name: Sonar Validate       
+   
             
           # executa step docker build e push
         - uses: ./build-templates/.github/workflows/release/docker-hub
@@ -106,6 +107,7 @@ jobs:
 
     pipeline-build-hml:
       runs-on: linux
+      needs: Validate
       if: ${{ github.event.inputs.environment == 'hml' }}
       steps:
         - name: Check out repository
@@ -145,6 +147,7 @@ jobs:
             Gmud: ${{ github.event.inputs.Gmud }}                    
 
     pipeline-build-prd:
+      needs: Validate
       runs-on: linux
       if: ${{ github.event.inputs.environment == 'prd' }}
       steps:
