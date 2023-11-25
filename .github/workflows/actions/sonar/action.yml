@@ -14,7 +14,7 @@ runs:
       with:
         repository: 'devops-pro-mota/build-templates'
         ref: 'refs/heads/main'
-        #token: '${{ secrets.GH_TOKEN }}'
+        token: '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'
         path: 'build-templates/'  
     - name: pipeline metrics
       shell: bash
