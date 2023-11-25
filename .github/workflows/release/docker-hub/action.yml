@@ -1,6 +1,6 @@
 on:
   workflow_call:
-name: Docker Build and Push
+name: Docker Build, Tag and Push
 runs: 
   using: 'composite'
   steps:
