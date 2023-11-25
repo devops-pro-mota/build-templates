@@ -1,0 +1,9 @@
+on:
+  workflow_call:
+name: Bem sucedido
+runs: 
+  using: 'composite'
+  steps:
+    - name: Bem sucedido
+      shell: bash
+      run: |
