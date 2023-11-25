@@ -13,8 +13,16 @@ on:
         type: string  
 
 jobs:
+    DevSecOps-Validate:
+      runs-on: Linux
+      steps:   
+         # adiciona step para validar sonar
+        - uses: ./build-templates/.github/workflows/actions/sonar
+          name: Sonar Validate
+
     pipeline-build-dev:
       runs-on: Linux
+      needs: DevSecOps-Validate
       if: ${{ github.event.inputs.environment == 'dev' }}
       steps:
         - name: Check out repository
