@@ -26,6 +26,7 @@ jobs:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
             path: 'build-templates/'
+            gh_token: '${{ secrets.GHTOKEN }}'
           
          # metricas
         - uses: ./build-templates/.github/workflows/actions/validacoes
@@ -53,6 +54,7 @@ jobs:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
             path: 'build-templates/'
+            gh_token: '${{ secrets.GHTOKEN }}'
 
 
         #   # normaliza as variaveis de ambiente  
@@ -70,6 +72,7 @@ jobs:
           env:      
             environment: ${{ github.event.inputs.environment }}
             projeto: ${{ github.event.repository.name }}
+            gh_token: '${{ secrets.GHTOKEN }}'
 
           #executar step apenas se der erro 
         - uses: ./build-templates/.github/workflows/actions/falha
@@ -101,7 +104,7 @@ jobs:
           with:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
-            #token: '${{ secrets.GH_TOKEN }}'
+            gh_token: '${{ secrets.GHTOKEN }}'
             path: 'build-templates/'
 
           # deploy k8s
@@ -110,7 +113,7 @@ jobs:
           env:      
             environment: ${{ github.event.inputs.environment }}
             namespace: ${{ github.event.inputs.namespace }}
-      
+            gh_token: '${{ secrets.GHTOKEN }}'      
 
     # deploy-k8s-dev:
     #   runs-on: linux
@@ -136,7 +139,7 @@ jobs:
           with:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
-            #token: '${{ secrets.GH_TOKEN }}'
+            gh_token: '${{ secrets.GHTOKEN }}'
             path: 'build-templates/'
   
         - uses: ./build-templates/.github/workflows/actions/validacoes
@@ -176,7 +179,7 @@ jobs:
           with:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
-            #token: '${{ secrets.GH_TOKEN }}'
+            gh_token: '${{ secrets.GHTOKEN }}'
             path: 'build-templates/'
 
           # deploy k8s
@@ -201,7 +204,7 @@ jobs:
           with:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
-            #token: '${{ secrets.GH_TOKEN }}'
+            gh_token: '${{ secrets.GHTOKEN }}'
             path: 'build-templates/'
   
         - uses: ./build-templates/.github/workflows/actions/validacoes
@@ -244,7 +247,7 @@ jobs:
           with:
             repository: 'devops-pro-mota/build-templates'
             ref: 'refs/heads/main'
-            #token: '${{ secrets.GH_TOKEN }}'
+            gh_token: '${{ secrets.GHTOKEN }}'
             path: 'build-templates/'
                   
           # deploy k8s
@@ -253,4 +256,5 @@ jobs:
           env:      
             environment: ${{ github.event.inputs.environment }}
             namespace: ${{ github.event.inputs.namespace }}
+            gh_token: '${{ secrets.GHTOKEN }}'
          
