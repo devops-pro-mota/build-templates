@@ -21,4 +21,4 @@ runs:
         # clonar um repositorio da aplicacao
         git clone https://devops-pro-mota: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@github.com/devops-pro-mota/ALM-k8s.git
         cd ALM-k8s
-        kubectl apply -f ${{ env.environment }}-${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}
+        kubectl apply -f ${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}
