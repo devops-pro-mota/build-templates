@@ -29,7 +29,7 @@ runs:
 
         # encontrar a ocorrencia da imagem e alterar o build
         #sed -i 's/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/g' seu_arquivo.yml
-        sed -E -i 's/${{ github.event.repository.name }}:[0-9]+/${{ github.event.repository.name }}:$GITHUB_RUN_ID/g' deployments.yml
+        sed -E -i 's/${{ github.event.repository.name }}:[0-9]+/${{ github.event.repository.name }}:'$GITHUB_RUN_ID/g deployments.yml
 
 
         kubectl apply -f ${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}
