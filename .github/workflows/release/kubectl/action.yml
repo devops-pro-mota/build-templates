@@ -11,7 +11,7 @@ runs:
         kubectl config use-context local
 
         # verificar se o namespace existe
-        if [ "$(kubectl get ns --no-headers -o custom-columns=":metadata.name" | grep ${{ env.namespace }})" != "${{ env.namespace }}" ];then
+        if [ "$(kubectl get ns --no-headers -o custom-columns=":metadata.name" | grep ${{ env.environment }}-${{ env.namespace }})" != "${{ env.environment }}-${{ env.namespace }}" ];then
           echo -e "\033[32m\033[1m  kubectl create ns ${{ env.namespace }}"
           kubectl create ns ${{ env.namespace }}
         else
@@ -21,4 +21,4 @@ runs:
         # clonar um repositorio da aplicacao
         git clone https://devops-pro-mota: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@github.com/devops-pro-mota/ALM-k8s.git
         cd ALM-k8s
-        kubectl apply -f ${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}
+        kubectl apply -f ${{ env.environment }}-${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}
