@@ -149,7 +149,16 @@ jobs:
           env:      
             solution: ${{ github.event.inputs.solution }}
             environment: ${{ github.event.inputs.environment }}
-            namespace: ${{ github.event.inputs.namespace }}      
+            namespace: ${{ github.event.inputs.namespace }}  
+
+           # executa step docker build e push
+        - uses: ./build-templates/.github/workflows/release/docker-hub
+          name: Docker Build and Push (Release)
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            projeto: ${{ github.event.repository.name }}
+            gh_token: '${{ secrets.GHTOKEN }}'
+
           #executar step apenas se der erro 
         - uses: ./build-templates/.github/workflows/actions/falha
           name: Falha de execução
@@ -212,6 +221,13 @@ jobs:
           env:      
             environment: ${{ github.event.inputs.environment }}
             Gmud: ${{ github.event.inputs.Gmud }}  
+          # executa step docker build e push
+        - uses: ./build-templates/.github/workflows/release/docker-hub
+          name: Docker Build and Push (Release)
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            projeto: ${{ github.event.repository.name }}
+            gh_token: '${{ secrets.GHTOKEN }}'            
                        
         - uses: ./build-templates/.github/workflows/actions/gmud
           name: GMUD-Validate
