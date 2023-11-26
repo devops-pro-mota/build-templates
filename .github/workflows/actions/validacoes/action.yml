@@ -4,7 +4,6 @@ name: metrics pipeline
 runs: 
   using: 'composite'
   steps:
-      
     - name: pipeline metrics
       shell: bash
       run: |
