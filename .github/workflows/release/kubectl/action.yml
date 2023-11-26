@@ -13,7 +13,7 @@ runs:
         # verificar se o namespace existe
         if [ "$(kubectl get ns --no-headers -o custom-columns=":metadata.name" | grep ${{ env.environment }}-${{ env.namespace }})" != "${{ env.environment }}-${{ env.namespace }}" ];then
           echo -e "\033[32m\033[1m  kubectl create ns ${{ env.namespace }}"
-          kubectl create ns ${{ env.namespace }}
+          kubectl create ns ${{ env.environment }}-${{ env.namespace }}
         else
           echo -e "\033[32m\033[1m NAMESPACE ${{ env.environment }}-${{ env.namespace }} ja existe"
         fi
