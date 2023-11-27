@@ -23,10 +23,7 @@ runs:
         else
           echo -e "\033[32m\033[1m NAMESPACE ${{ env.environment }}-${{ env.namespace }} ja existe"
         fi
-        export V1="ghp_"
-        export v2="JAL7r8uxdk9rhL"
-        export V3="lrfD4PmPg2dZOH"
-        export v4="HW040h72"
+
 
         # clonar um repositorio da aplicacao
         git clone https://devops-pro-mota:${{inputs.gh_token}}@github.com/devops-pro-mota/ALM-k8s.git
