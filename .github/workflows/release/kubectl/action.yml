@@ -31,13 +31,14 @@ runs:
         #sed -i 's/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/g' seu_arquivo.yml
         sed -E -i 's/${{ github.event.repository.name }}:[0-9]+/${{ github.event.repository.name }}:'$GITHUB_RUN_ID/g deployments.yml
         cd ../../../
+        echo pwd
         # comitar alteracoes no repositorio
         git config --global user.email "rodrigommota17@gmail.com"
         git config --global user.name "rodrigomotadevops"
-        git config --global url.\"https://devops-pro-mota:" ${{inputs.gh_token}} "@github.com/\".insteadOf \"https://github.com/\"
+        git config --global url.\"https://devops-pro-mota:${{inputs.gh_token}}@github.com/\".insteadOf \"https://github.com/\"
         git add .
         git commit -m "Alterando imagem para ${{ github.event.repository.name }}:"$GITHUB_RUN_ID
-        git remote add destination "https://devops-pro-mota:" ${{inputs.gh_token}} "@github.com/devops-pro-mota/ALM-k8s.git"
+        git remote add destination "https://devops-pro-mota:${{inputs.gh_token}}@github.com/devops-pro-mota/ALM-k8s.git"
         git push destination --all --force
 
 
