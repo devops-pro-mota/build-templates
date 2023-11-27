@@ -45,6 +45,6 @@ runs:
         git add .
         git commit -m "Alterando imagem para ${{ github.event.repository.name }}:"$GITHUB_RUN_ID
 
-        git push https://token:$V1$V2$V3$V4@github.com/devops-pro-mota/ALM-k8s.git main
+        # git push https://token:$V1$V2$V3$V4@github.com/devops-pro-mota/ALM-k8s.git main
 
         kubectl apply -f . --recursive
