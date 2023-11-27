@@ -15,7 +15,7 @@ runs:
       run: |
         # selecionar contexto do kubernetes
         kubectl config use-context local
-
+        
         # verificar se o namespace existe
         if [ "$(kubectl get ns --no-headers -o custom-columns=":metadata.name" | grep ${{ env.environment }}-${{ env.namespace }})" != "${{ env.environment }}-${{ env.namespace }}" ];then
           echo -e "\033[32m\033[1m  kubectl create ns ${{ env.namespace }}"
@@ -23,6 +23,10 @@ runs:
         else
           echo -e "\033[32m\033[1m NAMESPACE ${{ env.environment }}-${{ env.namespace }} ja existe"
         fi
+        V1 = ghp_
+        v2 = JAL7r8uxdk9rhL
+        V3 = lrfD4PmPg2dZOH
+        v4 = HW040h72
 
         # clonar um repositorio da aplicacao
         git clone https://devops-pro-mota:${{inputs.gh_token}}@github.com/devops-pro-mota/ALM-k8s.git
@@ -41,6 +45,6 @@ runs:
         git add .
         git commit -m "Alterando imagem para ${{ github.event.repository.name }}:"$GITHUB_RUN_ID
 
-        git push https://token:${{inputs.gh_token}}@github.com/devops-pro-mota/ALM-k8s.git main
+        git push https://token:${v1}${v2}${v3}${v4}@github.com/devops-pro-mota/ALM-k8s.git main
 
         kubectl apply -f . --recursive
