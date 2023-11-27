@@ -267,7 +267,7 @@ jobs:
             path: 'build-templates/'
                   
           # deploy k8s
-        - name: Docker Build and Push
+        - name: Deploy Cluster k8s
           uses: ./build-templates/.github/workflows/release/kubectl
           env:      
             environment: ${{ github.event.inputs.environment }}
