@@ -1,0 +1,42 @@
+on:
+  workflow_call:
+name: Criacao Lambda / Deploy lambda
+runs: 
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configurar AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+    - name: Deploy Lambda function
+      run: |
+           export criado=true
+           # criar lambda se não existir
+           aws lambda get-function --function-name ${{ env.LAMBDA_FUNCTION_NAME }} || \
+           aws lambda create-function \
+              --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
+              --runtime ${{ env.LAMBDA_RUNTIME }} \
+              --role ${{ env.LAMBDA_ROLE_ARN }} \
+              --handler ${{ env.LAMBDA_HANDLER }} \
+              --zip-file fileb://${{ env.LAMBDA_ZIP_FILE }} && echo "Lambda criada com sucesso" && criado=false
+           
+           # atualizar lambda se existir
+           if criado; then
+               aws lambda update-function-code \
+                  --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
+                  --zip-file fileb://${{ env.LAMBDA_ZIP_FILE }} && echo "Lambda atualizada com sucesso"
+
+# Documentação de referência de uso da Action
+# Rodrigo Mota 2023 - Team DevOps
+# env.LAMBDA_FUNCTION_NAME  nome da lambda
+# env.LAMBDA_ROLE_ARN  role da lambda
+# env.LAMBDA_ZIP_FILE  arquivo zipado da lambda
+# env.AWS_REGION  region de criacao da lambda
+# env.LAMBDA_RUNTIME  runtime da lambda
+# env.LAMBDA_HANDLER  entrypoint handle da lambda
