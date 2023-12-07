@@ -1,1 +1,9 @@
-
+on:
+  workflow_call:
+name: Find Credentials
+runs: 
+  using: 'composite'
+  steps:
+    - name: Find Credentials
+      shell: bash
+      run: |
