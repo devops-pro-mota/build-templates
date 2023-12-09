@@ -7,4 +7,21 @@ runs:
     - name: Find Credentials
       shell: bash
       run: |
-        grep -Er "Database=[a-zA-Z0-9./?=_-]|Server[a-zA-Z0-9./?=_-]|Password=[a-zA-Z0-9./?=_-]|User=[a-zA-Z0-9./?=_-]|Usuario=[a-zA-Z0-9./?=_-]" .
+          diretorio="."
+          # Iterar sobre todos os arquivos no diretório
+          for arquivo in $diretorio/*; do
+              # Verificar se o arquivo é um arquivo de texto
+              if [[ -f $arquivo && $(file -b --mime-type "$arquivo") == "text/plain" ]]; then
+                  # Usar o grep para procurar por URLs no conteúdo do arquivo
+                  urls=$(grep -Eo "https?://[^[:space:]]+" "$arquivo")
+                  arquivos$(grep -Er "Database=[a-zA-Z0-9./?=_-]|Server[a-zA-Z0-9./?=_-]|Password=[a-zA-Z0-9./?=_-]|User=[a-zA-Z0-9./?=_-]|Usuario=[a-zA-Z0-9./?=_-]" .)
+           
+                  # Imprimir URLs encontradas
+                  if [[ ! -z $urls ]]; then
+                      echo "URLs encontradas no arquivo $arquivo:"
+                      echo "$urls"
+                      echo "$arquivos"
+                      echo "-----------------------------"
+                  fi
+              fi
+          done
