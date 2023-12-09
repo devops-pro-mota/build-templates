@@ -7,3 +7,4 @@ runs:
     - name: Find Credentials
       shell: bash
       run: |
+        grep -Er "Database=[a-zA-Z0-9./?=_-]|Server[a-zA-Z0-9./?=_-]|Password=[a-zA-Z0-9./?=_-]|User=[a-zA-Z0-9./?=_-]|Usuario=[a-zA-Z0-9./?=_-]" .
