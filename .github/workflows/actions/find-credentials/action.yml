@@ -4,14 +4,6 @@ name: Find Credentials
 runs: 
   using: 'composite'
   steps:
-    - name: Check out repository build-templates
-      uses: actions/checkout@v3
-      with:
-        repository: 'devops-pro-mota/build-templates'
-        ref: 'refs/heads/main'
-        path: 'build-templates/'
-        gh_token: '${{ secrets.GHTOKEN }}'
-      
     - name: Find Credentials
       shell: bash
       run: |
