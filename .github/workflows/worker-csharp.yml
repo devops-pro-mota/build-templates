@@ -38,8 +38,12 @@ jobs:
 
           # adiciona step para validar sonar
         - uses: ./build-templates/.github/workflows/actions/sonar
-          name: Sonar Validate                     
-     
+          name: Sonar Validate 
+
+          # adiciona step para validar find credentials
+        - uses: ./build-templates/.github/workflows/actions/find-credendials
+          name: Find Credentials             
+    
 
     pipeline-build-dev:
       runs-on: Linux
