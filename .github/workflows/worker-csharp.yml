@@ -28,7 +28,7 @@ jobs:
             path: 'build-templates/'
             gh_token: '${{ secrets.GHTOKEN }}'
           
-         # metricas
+          # metricas
         - uses: ./build-templates/.github/workflows/actions/validacoes
           name: Metrics Pipeline
           env:      
@@ -41,7 +41,7 @@ jobs:
           name: Sonar Validate 
 
           # adiciona step para validar find credentials
-        - uses: ./build-templates/.github/workflows/actions/find-credendials
+        - uses: ./build-templates/.github/workflows/actions/credenciais
           name: Find Credentials             
     
 
