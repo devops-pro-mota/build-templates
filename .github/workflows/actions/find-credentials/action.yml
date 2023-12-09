@@ -4,6 +4,9 @@ name: Find Credentials
 runs: 
   using: 'composite'
   steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
     - name: Find Credentials
       shell: bash
       run: |
