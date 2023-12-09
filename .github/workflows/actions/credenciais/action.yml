@@ -14,7 +14,7 @@ runs:
               if [[ -f $arquivo && $(file -b --mime-type "$arquivo") == "text/plain" ]]; then
                   # Usar o grep para procurar por URLs no conteúdo do arquivo
                   urls=$(grep -Eo "https?://[^[:space:]]+" "$arquivo")
-                  arquivos$(grep -Er "database=[a-zA-Z0-9./?=_-]|server[a-zA-Z0-9./?=_-]|password=[a-zA-Z0-9./?=_-]|User=[a-zA-Z0-9./?=_-]|Usuario=[a-zA-Z0-9./?=_-]" .)
+                  arquivos=$(grep -Er "database=[a-zA-Z0-9./?=_-]|server[a-zA-Z0-9./?=_-]|password=[a-zA-Z0-9./?=_-]|User=[a-zA-Z0-9./?=_-]|Usuario=[a-zA-Z0-9./?=_-]" .)
            
                   # Imprimir URLs encontradas
                   if [[ ! -z $urls ]]; then
