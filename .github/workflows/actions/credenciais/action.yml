@@ -10,6 +10,8 @@ runs:
 
           # Iterar sobre todos os arquivos no diretório
           export retorno=$(find . -type f -exec grep -H -E -i "database=[a-zA-Z0-9./?=_-]|server=[a-zA-Z0-9./?=_-]|password=[a-zA-Z0-9./?=_-]|user=[a-zA-Z0-9./?=_-]|Usuario=[a-zA-Z0-9./?=_-]" {} + ) 
-          
+          echo "Credenciais encontradas"
+          echo $retorno
+          echo "-------------------------------------------------------"
           echo "procurando urls"
           find . -type f -exec grep -H -E -i "(http|https)://[a-zA-Z0-9./?=_-]*" {} +
