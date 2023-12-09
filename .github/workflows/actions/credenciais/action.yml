@@ -13,7 +13,19 @@ runs:
           echo "Credenciais encontradas"
           echo "$retorno"
 
-          cat resultado.txt
+          
+           if [ -f resultado.txt ]; then
+            if [ -s resultado.txt ]; then
+              echo "O arquivo resultado.txt existe e tem conteúdo. Cancelando execução da action."
+              cat resultado.txt
+              exit 1
+            else
+              echo "O arquivo resultado.txt existe, mas está vazio."
+              cat resultado.txt
+            fi
+          else
+            echo "O arquivo resultado.txt não existe."
+          fi
   
           echo "-------------------------------------------------------"
           echo "procurando urls"
