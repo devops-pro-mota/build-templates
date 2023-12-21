@@ -85,6 +85,7 @@ jobs:
           env:      
             environment: ${{ github.event.inputs.environment }}
             projeto: ${{ github.event.repository.name }}
+            gh_token: '${{ secrets.GHTOKEN }}'
 
             
 
