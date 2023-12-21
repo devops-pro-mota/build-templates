@@ -1,1 +1,11 @@
-
+on:
+  workflow_call:
+name: SAST com Trivy
+runs: 
+  using: 'composite'
+  steps:
+    - name: Find Credentials
+      shell: bash
+      run: |
+        trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:latest
+        
