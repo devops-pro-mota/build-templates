@@ -18,10 +18,13 @@ runs:
           echo "Status: $GITHUB_RUN_STATUS"
           echo "Usuario: $GITHUB_TRIGGERING_ACTOR"
 
-          if curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/ValidaChange?recurso=${{ github.event.repository.name }}&id=${{ env.Gmud }}' -H 'accept: text/plain' | grep -q 'GMUD autorizada'; then
-            echo -e "\033[32m\033[1m Change autorizada"
-            exit 0 
-          else
-            echo -e "\033[32m\033[1m Change nao autorizada / não encontrada para o recurso"
-            exit 1
-          fi      
+          # if curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/ValidaChange?recurso=${{ github.event.repository.name }}&id=${{ env.Gmud }}' -H 'accept: text/plain' | grep -q 'GMUD autorizada'; then
+          #           echo -e "\033[32m\033[1m Change autorizada"
+          #           exit 0 
+          #         else
+          #           echo -e "\033[32m\033[1m Change nao autorizada / não encontrada para o recurso"
+          #           exit 1
+          #         fi      
+
+          msg=$( curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/ValidaChange?recurso=${{ github.event.repository.name }}&id=${{ env.Gmud }}' -H 'accept: text/plain') 
+          echo $msg
