@@ -27,13 +27,13 @@ runs:
           #         fi      
 
           msg=$( curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/ValidaChange?recurso=${{ github.event.repository.name }}&id=${{ env.Gmud }}' -H 'accept: text/plain') 
-          echo $msg
+          echo -e "\033[32m\033[1m $msg "
           echo $msg | grep -q "GMUD autorizada"
           if [ $? -eq 0 ]
           then
-              echo "GMUD autorizada"
+              echo -e "\033[32m\033[1m Change autorizada"
               exit 0
           else
-              echo "GMUD não autorizada"
+              echo -e "\033[32m\033[1m Change não autorizada"
               exit 1
           fi
