@@ -230,6 +230,12 @@ jobs:
             ref: 'refs/heads/main'
             gh_token: '${{ secrets.GHTOKEN }}'
             path: 'build-templates/'
+            
+        - uses: ./build-templates/.github/workflows/actions/gmud
+          name: GMUD-Validate
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}            
   
         # - uses: ./build-templates/.github/workflows/actions/validacoes
         #   name: Metrics Pipeline
@@ -244,11 +250,6 @@ jobs:
             projeto: ${{ github.event.repository.name }}
             gh_token: '${{ secrets.GHTOKEN }}'            
                        
-        - uses: ./build-templates/.github/workflows/actions/gmud
-          name: GMUD-Validate
-          env:      
-            environment: ${{ github.event.inputs.environment }}
-            Gmud: ${{ github.event.inputs.Gmud }}
           #executar step apenas se der erro 
         - uses: ./build-templates/.github/workflows/actions/falha
           name: Falha de execução
