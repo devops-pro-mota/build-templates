@@ -31,3 +31,24 @@ runs:
                           "nomeJob": "${{github.workflow}}",
                           "statusRun": "sucess"
                         }'
+
+          # se tiver var de gmud enviar suscesso para API para
+          if [ -z "${{ env.Gmud }}" ]
+          then
+            echo "Gmud não informada."
+          else
+            echo "Gmud informada: [ ${{ env.Gmud }} ]"
+            IMAGE_BUILD_ID=$(curl -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ env.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
+            echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
+
+            curl -k -X 'PUT' \
+                      'https://192.168.0.93:32776/api/Evento/$GITHUB_RUN_ID' \
+                      -H 'accept: text/plain' \
+                      -H 'Content-Type: application/json' \
+                      -d '{
+                            "id": 0,
+                            "buildid": "$IMAGE_BUILD_ID",
+                            "statusExecucao": "sucesso"
+                          }' 
+
+          fi
