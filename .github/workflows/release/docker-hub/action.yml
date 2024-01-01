@@ -20,5 +20,22 @@ runs:
       - name: pipeline metrics
         shell: bash
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:latest --push .
-          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID --push .
+            # baixar a imagem do docker hub referente a gmud aprovada 
+            if [ -z "${{ env.Gmud }}" ]
+            then
+              IMAGE_BUILD_ID=$(curl -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ env.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
+              echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
+
+              if [ -z "$IMAGE_BUILD_ID" ]
+              then
+                echo "IMAGE_BUILD_ID is empty, erro ao obter o ID da imagem do docker hub referente a gmud aprovada"
+                exit 1
+              else
+                echo "IMAGE_BUILD_ID is not empty"
+                docker pull rodrigomotadevops/hml-${{ github.event.repository.name }}:$IMAGE_BUILD_ID 
+              fi
+            else
+              echo "Gmud não informada."
+                # docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:latest --push .
+                docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID --push .
+            fi
