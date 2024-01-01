@@ -19,7 +19,7 @@ runs:
           echo "Usuario: $GITHUB_TRIGGERING_ACTOR"
           
           # atualizar api de metrics
-          echo "PÙT API"
+          echo "PUT API"
           curl -k -X 'PUT' \
                     'https://192.168.0.93:32776/api/Evento/$GITHUB_RUN_ID' \
                     -H 'accept: text/plain' \
@@ -27,4 +27,14 @@ runs:
                     -d '{
                           "buildId": "'$GITHUB_RUN_ID'",
                           "statusRun": "Failed"
+                        }'
+          # buscar o ultimo ID              
+          curl -k -X 'PUT' \
+                    'https://192.168.0.93:32776/api/Changes/updExecucaoChange' \
+                    -H 'accept: text/plain' \
+                    -H 'Content-Type: application/json' \
+                    -d '{
+                          "id": 0,
+                          "buildid": "7005482504",
+                          "statusExecucao": "failed"
                         }'
