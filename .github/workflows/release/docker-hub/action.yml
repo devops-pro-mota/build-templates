@@ -21,9 +21,9 @@ runs:
         shell: bash
         run: |
             # baixar a imagem do docker hub referente a gmud aprovada 
-            if [ -z "${{ env.Gmud }}" ]
+            if [ -z "${{ github.event.inputs.Gmud }}" ]
             then
-              IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ env.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
+              IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
               echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
 
               if [ -z "$IMAGE_BUILD_ID" ]
