@@ -34,7 +34,7 @@ runs:
             echo "Gmud não informada."
           else  
             echo "Gmud informada: [ ${{ env.Gmud }} ]"
-            IMAGE_BUILD_ID=$(curl -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ env.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
+            IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
             echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
             
             curl -k -X 'PUT' \
@@ -42,7 +42,7 @@ runs:
                       -H 'accept: text/plain' \
                       -H 'Content-Type: application/json' \
                       -d '{
-                            "id": 0,
+                            "id": ${{ github.event.inputs.Gmud }},
                             "buildid": "'$IMAGE_BUILD_ID'",
                             "statusExecucao": "failed"
                           }'
