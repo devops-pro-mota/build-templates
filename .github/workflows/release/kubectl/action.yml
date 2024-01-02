@@ -23,14 +23,15 @@ runs:
         else
           echo -e "\033[32m\033[1m NAMESPACE ${{ env.environment }}-${{ env.namespace }} ja existe"
         fi
-        # controla a versao do ingress
-        sed -E -i 's/Versao-RetryBuild=[0-9]+/Versao-RetryBuild='$GITHUB_RUN_NUMBER/g ingress.yml
-        
+
         # clonar um repositorio da aplicacao
         git clone https://devops-pro-mota:${{inputs.gh_token}}@github.com/devops-pro-mota/ALM-k8s.git
         # entrar no diretorio dos manifestos
         cd ALM-k8s/${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}
 
+        # controla a versao do ingress
+        sed -E -i 's/Versao-RetryBuild=[0-9]+/Versao-RetryBuild='$GITHUB_RUN_NUMBER/g ingress.yml
+        
         # encontrar a ocorrencia da imagem e alterar o build
         #sed -i 's/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/g' seu_arquivo.yml
 
