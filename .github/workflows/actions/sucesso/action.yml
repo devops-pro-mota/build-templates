@@ -33,7 +33,7 @@ runs:
                         }'
 
           # se tiver var de gmud enviar suscesso para API para
-          if [ -z "${{ github.event.inputs.Gmud }}" ]
+          if ! [ -z "${{ github.event.inputs.Gmud }}" ]
           then
             echo "Gmud não informada."
           else
