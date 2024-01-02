@@ -21,7 +21,7 @@ runs:
         shell: bash
         run: |
             # baixar a imagem do docker hub referente a gmud aprovada 
-            if [ -z "${{ github.event.inputs.Gmud }}" ]
+            if ! [ -z "${{ github.event.inputs.Gmud }}" ]
             then
               IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
               echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
@@ -33,6 +33,8 @@ runs:
               else
                 echo "IMAGE_BUILD_ID is not empty"
                 docker pull rodrigomotadevops/hml-${{ github.event.repository.name }}:$IMAGE_BUILD_ID 
+                docker tag rodrigomotadevops/hml-${{ github.event.repository.name }}:$IMAGE_BUILD_ID rodrigomotadevops/prd-${{ github.event.repository.name }}:$IMAGE_BUILD_ID 
+                docker push rodrigomotadevops/prd-${{ github.event.repository.name }}:$IMAGE_BUILD_ID
               fi
             else
               echo "Gmud não informada."
