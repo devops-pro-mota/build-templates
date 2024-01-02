@@ -30,9 +30,19 @@ runs:
                 -H 'Content-Type: application/json' \
                 -d '{
                       "id": 0,
-                      "buildid": "$IMAGE_BUILD_ID",
+                      "buildid": "'$IMAGE_BUILD_ID'",
                       "statusExecucao": "running"
                     }' 
+
+           echo curl -k -X 'PUT' \
+                'https://192.168.0.93:32776/api/Changes/updExecucaoChange' \
+                -H 'accept: text/plain' \
+                -H 'Content-Type: application/json' \
+                -d '{
+                      "id": 0,
+                      "buildid": "'$IMAGE_BUILD_ID'",
+                      "statusExecucao": "running"
+                    }'          
             
           fi  
 
