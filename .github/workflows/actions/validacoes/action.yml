@@ -21,7 +21,7 @@ runs:
           # pegar buildid para iniciar o update do andamento do recurso da change
           if [ -z "${{ env.Gmud }}" ]
           then
-            IMAGE_BUILD_ID=$(curl -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
+            IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
             echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
             echo "BUILD ID: $IMAGE_BUILD_ID"
             curl -k -X 'PUT' \
