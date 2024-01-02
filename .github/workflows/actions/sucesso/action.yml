@@ -46,7 +46,7 @@ runs:
                       -H 'accept: text/plain' \
                       -H 'Content-Type: application/json' \
                       -d '{
-                            "id": 0,
+                            "id": ${{ github.event.inputs.Gmud }},
                             "buildid": "'$IMAGE_BUILD_ID'",
                             "statusExecucao": "sucesso"
                           }' 
