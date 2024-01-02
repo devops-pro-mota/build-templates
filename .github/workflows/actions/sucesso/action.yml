@@ -47,7 +47,7 @@ runs:
                       -H 'Content-Type: application/json' \
                       -d '{
                             "id": 0,
-                            "buildid": "$IMAGE_BUILD_ID",
+                            "buildid": "'$IMAGE_BUILD_ID'",
                             "statusExecucao": "sucesso"
                           }' 
 
