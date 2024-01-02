@@ -24,7 +24,6 @@ runs:
           echo -e "\033[32m\033[1m NAMESPACE ${{ env.environment }}-${{ env.namespace }} ja existe"
         fi
 
-
         # clonar um repositorio da aplicacao
         git clone https://devops-pro-mota:${{inputs.gh_token}}@github.com/devops-pro-mota/ALM-k8s.git
         # entrar no diretorio dos manifestos
@@ -32,8 +31,20 @@ runs:
 
         # encontrar a ocorrencia da imagem e alterar o build
         #sed -i 's/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/g' seu_arquivo.yml
-        sed -E -i 's/${{ github.event.repository.name }}:[0-9]+/${{ github.event.repository.name }}:'$GITHUB_RUN_ID/g deployments.yml
-        kubectl apply -f . --recursive
+
+        # baixar a imagem do docker hub referente a gmud aprovada 
+        if ! [ -z "${{ github.event.inputs.Gmud }}" ]
+        then
+          IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
+          echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
+          sed -E -i 's/${{ github.event.repository.name }}:[0-9]+/${{ github.event.repository.name }}:'$IMAGE_BUILD_ID/g deployments.yml
+          kubectl apply -f . --recursive
+        else
+          sed -E -i 's/${{ github.event.repository.name }}:[0-9]+/${{ github.event.repository.name }}:'$GITHUB_RUN_ID/g deployments.yml
+          kubectl apply -f . --recursive    
+        fi  
+        
+
         
         cd ../../../
         #echo pwd
