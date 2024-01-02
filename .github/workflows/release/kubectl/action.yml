@@ -44,8 +44,6 @@ runs:
           kubectl apply -f . --recursive    
         fi  
         
-
-        
         cd ../../../
         #echo pwd
         # comitar alteracoes no repositorio
@@ -53,7 +51,13 @@ runs:
         git config --global user.name "rodrigomotadevops"
       
         git add .
-        git commit -m "Alterando imagem para ${{ github.event.repository.name }}:"$GITHUB_RUN_ID
+        # baixar a imagem do docker hub referente a gmud aprovada 
+        if ! [ -z "${{ github.event.inputs.Gmud }}" ]
+        then
+          git commit -m "Alterando imagem homologada GMUD ${{ github.event.repository.name }}:"$IMAGE_BUILD_ID
+        else 
+          git commit -m "Alterando imagem para ${{ github.event.repository.name }}:"$GITHUB_RUN_ID
+        fi  
 
         git push git@github.com:devops-pro-mota/ALM-k8s.git main
 
