@@ -1,0 +1,41 @@
+name: Replace Environment Variables in Config Files
+
+on:
+  push:
+    branches:
+      - main # Altere 'main' se desejar executar esse workflow em outra branch
+
+jobs:
+  replace-variables:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Install jq
+        run: sudo apt-get install jq
+
+      - name: Fetch Variables from API
+        id: fetch-vars
+        run: |
+          RESPONSE=$(curl -s "URL_DA_SUA_API")
+          echo "API_RESPONSE=$RESPONSE" >> $GITHUB_ENV
+
+      - name: Replace Variables in Config Files
+        run: |
+          jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' <<< "$API_RESPONSE" |
+          while IFS="=" read -r key value; do
+            sed -i "s/#${key}#/${value}/g" src/appsettings
+            sed -i "s/#${key}#/${value}/g" src/.env
+      	    sed -i "s/#${key}#/${value}/g" src/configuracao.ini
+          done
+          
+      # Descomente as linhas abaixo se desejar fazer o commit das alterações
+      #- name: Commit and Push Changes
+      #  run: |
+      #    git config --global user.name 'github-actions'
+      #    git config --global user.email 'github-actions@github.com'
+      #    git add path/to/your/appsettings path/to/your/.env
+      #    git commit -m "Auto-update config files with new environment variables" || echo "No changes to commit"
+      #    git push
