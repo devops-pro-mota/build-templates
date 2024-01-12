@@ -8,34 +8,47 @@ on:
 jobs:
   replace-variables:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        
-      - name: Install jq
-        run: sudo apt-get install jq
-
-      - name: Fetch Variables from API
-        id: fetch-vars
-        run: |
-          RESPONSE=$(curl -s "URL_DA_SUA_API")
-          echo "API_RESPONSE=$RESPONSE" >> $GITHUB_ENV
-
       - name: Replace Variables in Config Files
         run: |
-          jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' <<< "$API_RESPONSE" |
-          while IFS="=" read -r key value; do
-            sed -i "s/#${key}#/${value}/g" src/appsettings
-            sed -i "s/#${key}#/${value}/g" src/.env
-      	    sed -i "s/#${key}#/${value}/g" src/configuracao.ini
-          done
-          
-      # Descomente as linhas abaixo se desejar fazer o commit das alterações
-      #- name: Commit and Push Changes
-      #  run: |
-      #    git config --global user.name 'github-actions'
-      #    git config --global user.email 'github-actions@github.com'
-      #    git add path/to/your/appsettings path/to/your/.env
-      #    git commit -m "Auto-update config files with new environment variables" || echo "No changes to commit"
-      #    git push
+            # chamada da api para buscar os dados do dicionario
+            api_response=$(curl -s -k -X 'GET' 'https://192.168.0.93:32776/api/Dicionario/getDicionarioEsteira/$contexto/$ambiente' -H 'Content-Type: application/json')
+            
+            
+            # Lista de arquivos a serem verificados
+            arquivos=(
+              "src/appsettings"
+              "src/configmap"
+              "src/.env"
+              "src/Dockerfile"
+              # Adicione mais arquivos conforme necessário
+            )
+            
+            # Use 'jq' para iterar sobre cada objeto do array JSON e atualizar 'appsettings'.
+            echo "$api_response" | jq -c '.[]' | while read -r obj; do
+            
+            variavel=$(echo "$obj" | jq -r '.variavel')
+            valor=$(echo "$obj" | jq -r '.valor')
+            echo variavel=$(echo "$obj" | jq -r '.variavel')
+            echo valor=$(echo "$obj" | jq -r '.valor')
+            
+                # Iterar sobre cada arquivo e substituir a variável pelo valor.
+                for arquivo in "${arquivos[@]}"; do
+                    if [ -f "$arquivo" ]; then
+                        sed -i "s|#${variavel}#|${valor}|g" "$arquivo"
+                    fi
+                done
+            done
+            
+            # Exibir o conteúdo dos arquivos atualizados.
+            for arquivo in "${arquivos[@]}"; do
+                if [ -f "$arquivo" ]; then
+                    echo "########## [  $arquivo ] ############"
+                    echo "Ambiente: $ambiente"
+                    echo "Contexto app: $contexto"
+                    echo "Arquivo tokenizado: $arquivo"
+                    cat "$arquivo"
+                    echo "########## [ FIM ] ###############"
+                fi
+            done
+
