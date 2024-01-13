@@ -43,7 +43,7 @@ runs:
             "cve_low": "'$LOW'",
             "cve_medium": "'$MEDIUM'",
             "cve_high": "'$HIGH'",
-            "cve_critical": "'$CRITICAL'          
+            "cve_critical": "'$CRITICAL'"         
           }'
 
           cat trivy_results.json
