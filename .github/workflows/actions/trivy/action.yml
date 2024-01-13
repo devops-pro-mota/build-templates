@@ -44,11 +44,11 @@ runs:
             "cve_medium": "'$MEDIUM'",
             "cve_high": "'$HIGH'",
             "cve_critical": "'$CRITICAL',
-            "msg_cve": "'$content'"
+            "msg_cve": ""
           
           }'
 
-          #cat trivy_results.json
+          cat trivy_results.json
           
           # Remova o arquivo JSON caso não queira mantê-lo
           rm trivy_results.json
