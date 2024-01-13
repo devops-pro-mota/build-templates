@@ -133,6 +133,20 @@ jobs:
             environment: ${{ github.event.inputs.environment }}
             namespace: ${{ github.event.inputs.namespace }}
             gh_token: '${{ secrets.GHTOKEN }}'      
+         
+          #executar step apenas se der erro 
+        - uses: ./build-templates/.github/workflows/actions/falha
+          name: Falha de execução
+          if: ${{ failure() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+
+          # executa step apenas se der sucesso
+        - uses: ./build-templates/.github/workflows/actions/sucesso
+          name: Sucesso de execução
+          if: ${{ success() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}            
 
     # deploy-k8s-dev:
     #   runs-on: linux
@@ -219,8 +233,22 @@ jobs:
           uses: ./build-templates/.github/workflows/release/kubectl
           env:      
             environment: ${{ github.event.inputs.environment }}
-            namespace: ${{ github.event.inputs.namespace }}                               
+            namespace: ${{ github.event.inputs.namespace }}        
+        
+          #executar step apenas se der erro 
+        - uses: ./build-templates/.github/workflows/actions/falha
+          name: Falha de execução
+          if: ${{ failure() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
 
+          # executa step apenas se der sucesso
+        - uses: ./build-templates/.github/workflows/actions/sucesso
+          name: Sucesso de execução
+          if: ${{ success() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+       
     pipeline-build-prd:
       needs: Validate
       runs-on: linux
