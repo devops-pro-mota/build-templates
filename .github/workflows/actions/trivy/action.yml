@@ -44,7 +44,7 @@ runs:
             "cve_medium": "'$MEDIUM'",
             "cve_high": "'$HIGH'",
             "cve_critical": "'$CRITICAL',
-            "msg_cve": "'$content'"
+            "msg_cve": ""
           
           }'
 
