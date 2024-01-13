@@ -31,7 +31,7 @@ runs:
           echo "CRITICAL: $CRITICAL"
           TOTAL=$(($UNKNOWN + $LOW + $MEDIUM + $HIGH + $CRITICAL))
           # Exportação da contagem de CVEs para um arquivo
-          echo "Quantidade de CVEs: $TOTAL" > cve_count.txt
+          echo "Quantidade de CVEs: $TOTAL" 
           
           curl -k -X 'PUT' \
             'https://192.168.0.93:32776/api/Analitics/0' \
