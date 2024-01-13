@@ -7,5 +7,25 @@ runs:
     - name: Find Credentials
       shell: bash
       run: |
-        trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:latest
+        trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:latest > trivy_results.json
+
+        content=$(cat trivy_results.json)
         
+        UNKNOWN=$(echo $content | sed -n 's/.*UNKNOWN: \([0-9]*\).*/\1/p')
+        LOW=$(echo $content | sed -n 's/.*LOW: \([0-9]*\).*/\1/p')
+        MEDIUM=$(echo $content | sed -n 's/.*MEDIUM: \([0-9]*\).*/\1/p')
+        HIGH=$(echo $content | sed -n 's/.*HIGH: \([0-9]*\).*/\1/p')
+        CRITICAL=$(echo $content | sed -n 's/.*CRITICAL: \([0-9]*\).*/\1/p')
+        
+        echo "UNKNOWN: $UNKNOWN"
+        echo "LOW: $LOW"
+        echo "MEDIUM: $MEDIUM"
+        echo "HIGH: $HIGH"
+        echo "CRITICAL: $CRITICAL"
+        TOTAL=$(($UNKNOWN + $LOW + $MEDIUM + $HIGH + $CRITICAL))
+        # Exportação da contagem de CVEs para um arquivo
+        echo "Quantidade de CVEs: $TOTAL" 
+              
+        # Remova o arquivo JSON caso não queira mantê-lo
+        rm trivy_results.json
+              
