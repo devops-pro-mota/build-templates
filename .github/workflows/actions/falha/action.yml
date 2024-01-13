@@ -26,7 +26,7 @@ runs:
                     -H 'Content-Type: application/json' \
                     -d '{
                           "buildId": "'$GITHUB_RUN_ID'",
-                          "statusRun": "Failed"
+                          "statusRun": "failed"
                         }'
           # se tiver var de gmud enviar suscesso para API para
           if  [ -z "${{ github.event.inputs.Gmud }}" ]
