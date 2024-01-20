@@ -47,6 +47,7 @@ runs:
                           "ambiente": "${{ env.environment }}",
                           "statusRun": "running",
                           "branch": "'$GITHUB_REF_NAME'",
+                          "organizacao": "'${{ github.repository_owner }}'",
                           "gmud": "${{ env.Gmud }}"}' ;then
               echo "POST Metrics OK"
               sleep 5
