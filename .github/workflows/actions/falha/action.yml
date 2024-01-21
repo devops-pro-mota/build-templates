@@ -46,4 +46,40 @@ runs:
                             "buildid": "'$IMAGE_BUILD_ID'",
                             "statusExecucao": "failed"
                           }'
-          fi                 
+          fi       
+
+          # usar case para validar o job
+          case ${{ $GITHUB_JOB }} in    
+            "Validate")
+              ERROR_MESSAGE = "Erro no validate"
+              ;;
+            "pipeline-build-dev")
+              ERROR_MESSAGE = "Erro no pipeline-build-dev"
+              ;;
+            "pipeline-build-hml")
+              ERROR_MESSAGE = "Erro no pipeline-build-hml"
+              ;;
+            "pipeline-build-prd")
+              ERROR_MESSAGE = "Erro no pipeline-build-prd"
+              ;;
+            "pipeline-deploy-dev")
+              ERROR_MESSAGE = "Erro no pipeline-deploy-dev"
+              ;;
+            "pipeline-deploy-hml")
+              ERROR_MESSAGE = "Erro no pipeline-deploy-hml"
+              ;;
+            "pipeline-deploy-prd")
+              ERROR_MESSAGE = "Erro no pipeline-deploy-prd"
+              ;;
+
+            curl -k -X 'PUT' \
+                      'https://192.168.0.93:32776/api/EventosLog' \
+                      -H 'accept: text/plain' \
+                      -H 'Content-Type: application/json' \
+                      -d '{
+                            "id": 0,
+                              "buildid": "'$GITHUB_RUN_ID'",
+                              "recurso": "'${{ github.event.repository.name }}'",
+                              "ambiente": "'${{ env.environment }}'",
+                              "erroMsg": "'$ERROR_MESSAGE'"
+                          }'
