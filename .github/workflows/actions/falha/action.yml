@@ -82,5 +82,5 @@ runs:
                               "buildid": "'$GITHUB_RUN_ID'",
                               "recurso": "'${{ github.event.repository.name }}'",
                               "ambiente": "'${{ env.environment }}'",
-                              "erroMsg": "'${{ ERROR_MESSAGE }}'"
+                              "erroMsg": "'${{ env.ERROR_MESSAGE }}'"
                           }'
