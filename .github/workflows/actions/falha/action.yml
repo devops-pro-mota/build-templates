@@ -51,25 +51,25 @@ runs:
           # usar case para validar o job
           case $GITHUB_JOB in    
             "Validate")
-              ERROR_MESSAGE = "Erro no validate"
+              export ERROR_MESSAGE="Erro no validate"
               ;;
             "pipeline-build-dev")
-              ERROR_MESSAGE = "Erro no pipeline-build-dev"
+              export ERROR_MESSAGE="Erro no pipeline-build-dev"
               ;;
             "pipeline-build-hml")
-              ERROR_MESSAGE = "Erro no pipeline-build-hml"
+              export ERROR_MESSAGE="Erro no pipeline-build-hml"
               ;;
             "pipeline-build-prd")
-              ERROR_MESSAGE = "Erro no pipeline-build-prd"
+              export ERROR_MESSAGE="Erro no pipeline-build-prd"
               ;;
             "pipeline-deploy-dev")
-              ERROR_MESSAGE = "Erro no pipeline-deploy-dev"
+              export ERROR_MESSAGE="Erro no pipeline-deploy-dev"
               ;;
             "pipeline-deploy-hml")
-              ERROR_MESSAGE = "Erro no pipeline-deploy-hml"
+              export ERROR_MESSAGE="Erro no pipeline-deploy-hml"
               ;;
             "pipeline-deploy-prd")
-              ERROR_MESSAGE = "Erro no pipeline-deploy-prd"
+              export ERROR_MESSAGE="Erro no pipeline-deploy-prd"
               ;;
           esac
             echo "step :-- " $ERROR_MESSAGE
