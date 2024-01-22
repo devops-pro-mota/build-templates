@@ -50,32 +50,6 @@ runs:
                           }'
           fi       
 
-          # usar case para validar o job
-          case $GITHUB_JOB in    
-            "Validate")
-               LOGERROR_MESSAGE="Erro no validate" >> $GITHUB_ENV
-              ;;
-            "pipeline-build-dev")
-                LOGERROR_MESSAGE="Erro no pipeline-build-dev" >> $GITHUB_ENV
-              ;;
-            "pipeline-build-hml")
-                LOGERROR_MESSAGE="Erro no pipeline-build-hml" >> $GITHUB_ENV
-              ;;
-            "pipeline-build-prd")
-                LOGERROR_MESSAGE="Erro no pipeline-build-prd" >> $GITHUB_ENV
-              ;;
-            "pipeline-deploy-dev")
-                LOGERROR_MESSAGE="Erro no pipeline-deploy-dev" >> $GITHUB_ENV
-              ;;
-            "pipeline-deploy-hml")
-                LOGERROR_MESSAGE="Erro no pipeline-deploy-hml" >> $GITHUB_ENV
-              ;;
-            "pipeline-deploy-prd")
-                LOGERROR_MESSAGE="Erro no pipeline-deploy-prd" >> $GITHUB_ENV
-              ;;
-          esac
-            echo "step :-- " $LOGERROR_MESSAGE
-            export MSG="Erro no processo: " ${{ env.job_name }}
             curl -k -X 'POST' \
                       'https://192.168.0.93:32776/api/EventosLog' \
                       -H 'accept: text/plain' \
