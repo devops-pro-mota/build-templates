@@ -73,7 +73,7 @@ runs:
               ;;
           esac
             echo "step :-- " $LOGERROR_MESSAGE
-            export MSG="Erro no processo: $GITHUB_JOB"
+            export MSG="Erro no processo: #"
             curl -k -X 'POST' \
                       'https://192.168.0.93:32776/api/EventosLog' \
                       -H 'accept: text/plain' \
