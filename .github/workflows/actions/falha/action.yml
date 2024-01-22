@@ -51,28 +51,28 @@ runs:
           # usar case para validar o job
           case $GITHUB_JOB in    
             "Validate")
-              export ERROR_MESSAGE="Erro no validate" >> $GITHUB_ENV
+               LOGERROR_MESSAGE="Erro no validate" >> $GITHUB_ENV
               ;;
             "pipeline-build-dev")
-               export ERROR_MESSAGE="Erro no pipeline-build-dev" >> $GITHUB_ENV
+                LOGERROR_MESSAGE="Erro no pipeline-build-dev" >> $GITHUB_ENV
               ;;
             "pipeline-build-hml")
-               export ERROR_MESSAGE="Erro no pipeline-build-hml" >> $GITHUB_ENV
+                LOGERROR_MESSAGE="Erro no pipeline-build-hml" >> $GITHUB_ENV
               ;;
             "pipeline-build-prd")
-               export ERROR_MESSAGE="Erro no pipeline-build-prd" >> $GITHUB_ENV
+                LOGERROR_MESSAGE="Erro no pipeline-build-prd" >> $GITHUB_ENV
               ;;
             "pipeline-deploy-dev")
-               export ERROR_MESSAGE="Erro no pipeline-deploy-dev" >> $GITHUB_ENV
+                LOGERROR_MESSAGE="Erro no pipeline-deploy-dev" >> $GITHUB_ENV
               ;;
             "pipeline-deploy-hml")
-               export ERROR_MESSAGE="Erro no pipeline-deploy-hml" >> $GITHUB_ENV
+                LOGERROR_MESSAGE="Erro no pipeline-deploy-hml" >> $GITHUB_ENV
               ;;
             "pipeline-deploy-prd")
-               export ERROR_MESSAGE="Erro no pipeline-deploy-prd" >> $GITHUB_ENV
+                LOGERROR_MESSAGE="Erro no pipeline-deploy-prd" >> $GITHUB_ENV
               ;;
           esac
-            echo "step :-- " $ERROR_MESSAGE
+            echo "step :-- " $LOGERROR_MESSAGE
             curl -k -X 'POST' \
                       'https://192.168.0.93:32776/api/EventosLog' \
                       -H 'accept: text/plain' \
@@ -82,5 +82,5 @@ runs:
                               "buildid": "'$GITHUB_RUN_ID'",
                               "recurso": "'${{ github.event.repository.name }}'",
                               "ambiente": "'${{ env.environment }}'",
-                              "erroMsg": "'$ERROR_MESSAGE'"
+                              "erroMsg": "'$LOGERROR_MESSAGE'"
                           }'
