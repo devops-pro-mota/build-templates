@@ -54,22 +54,22 @@ runs:
               export ERROR_MESSAGE="Erro no validate" >> $GITHUB_ENV
               ;;
             "pipeline-build-dev")
-               ERROR_MESSAGE="Erro no pipeline-build-dev" >> $GITHUB_ENV
+               export ERROR_MESSAGE="Erro no pipeline-build-dev" >> $GITHUB_ENV
               ;;
             "pipeline-build-hml")
-               ERROR_MESSAGE="Erro no pipeline-build-hml" >> $GITHUB_ENV
+               export ERROR_MESSAGE="Erro no pipeline-build-hml" >> $GITHUB_ENV
               ;;
             "pipeline-build-prd")
-               ERROR_MESSAGE="Erro no pipeline-build-prd" >> $GITHUB_ENV
+               export ERROR_MESSAGE="Erro no pipeline-build-prd" >> $GITHUB_ENV
               ;;
             "pipeline-deploy-dev")
-               ERROR_MESSAGE="Erro no pipeline-deploy-dev" >> $GITHUB_ENV
+               export ERROR_MESSAGE="Erro no pipeline-deploy-dev" >> $GITHUB_ENV
               ;;
             "pipeline-deploy-hml")
-               ERROR_MESSAGE="Erro no pipeline-deploy-hml" >> $GITHUB_ENV
+               export ERROR_MESSAGE="Erro no pipeline-deploy-hml" >> $GITHUB_ENV
               ;;
             "pipeline-deploy-prd")
-               ERROR_MESSAGE="Erro no pipeline-deploy-prd" >> $GITHUB_ENV
+               export ERROR_MESSAGE="Erro no pipeline-deploy-prd" >> $GITHUB_ENV
               ;;
           esac
             echo "step :-- " $ERROR_MESSAGE
@@ -82,5 +82,5 @@ runs:
                               "buildid": "'$GITHUB_RUN_ID'",
                               "recurso": "'${{ github.event.repository.name }}'",
                               "ambiente": "'${{ env.environment }}'",
-                              "erroMsg": '$ERROR_MESSAGE'
+                              "erroMsg": "'$ERROR_MESSAGE'"
                           }'
