@@ -6,7 +6,7 @@ runs:
   steps:
     - name: Bem sucedido
       env: 
-        job_name: ${{ GITHUB_JOB }}
+        job_name: $GITHUB_JOB 
       shell: bash
       run: |
           echo "Ambiente do deploy ${{ env.environment }}"
