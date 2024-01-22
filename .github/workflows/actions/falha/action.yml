@@ -73,6 +73,7 @@ runs:
               ;;
           esac
             echo "step :-- " $LOGERROR_MESSAGE
+            export MSG="Erro no processo: $GITHUB_JOB"
             curl -k -X 'POST' \
                       'https://192.168.0.93:32776/api/EventosLog' \
                       -H 'accept: text/plain' \
@@ -82,5 +83,5 @@ runs:
                               "buildid": "'$GITHUB_RUN_ID'",
                               "recurso": "'${{ github.event.repository.name }}'",
                               "ambiente": "'${{ env.environment }}'",
-                              "erroMsg": "Erro na etapa de: '$GITHUB_JOB'"
+                              "erroMsg": "'$MSG'"
                           }'
