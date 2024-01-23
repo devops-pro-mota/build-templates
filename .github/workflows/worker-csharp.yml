@@ -40,8 +40,8 @@ jobs:
             namespace: ${{ github.event.inputs.namespace }}  
 
           # adiciona step para validar sonar
-        # - uses: ./build-templates/.github/workflows/actions/sonar
-        #   name: Sonar Validate 
+        - uses: ./build-templates/.github/workflows/actions/sonar
+          name: Sonar Validate 
 
           # adiciona step para validar find credentials
         - uses: ./build-templates/.github/workflows/actions/credenciais
