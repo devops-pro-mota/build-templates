@@ -46,6 +46,7 @@ runs:
                       -d '{
                             "id": ${{ github.event.inputs.Gmud }},
                             "buildid": "'$IMAGE_BUILD_ID'",
+                            "newBuildID":"'$GITHUB_RUN_ID'",
                             "statusExecucao": "failed"
                           }'
           fi       
