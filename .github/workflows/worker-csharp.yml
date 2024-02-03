@@ -40,7 +40,7 @@ jobs:
             gh_token: '${{ secrets.GHTOKEN }}'         
           
           # metricas
-        - uses: ./build-templates/.github/workflows/actions/validacoes
+        - uses: ./build-templates/.github/workflows/action/validacoes
           name: Metrics Pipeline
           env:      
             solution: ${{ github.event.inputs.solution }}
