@@ -13,9 +13,9 @@ runs:
             -H 'Content-Type: application/json' \
             -d '{
             "id": 0,
-            "aplicacao": "",
-            "ambiente": "",
-            "contexto": ""
+            "aplicacao": "${{ github.event.repository.name }}",
+            "ambiente": "${{ env.environment }}",
+            "contexto": "ConfigMap"
           }')
 
           # valido se ocorreu algum erro na chamada da API
@@ -34,8 +34,9 @@ runs:
           cat <<EOF > configmap.yaml
           apiVersion: v1
           kind: ConfigMap
+          namespace: ${{ github.event.repository.name }}-${{ env.environment }}
           metadata:
-            name: meu-configmap
+            name: ${{ github.event.repository.name }}-cnf
           data:
           EOF
 
