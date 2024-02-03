@@ -39,8 +39,8 @@ jobs:
             namespace: ${{ github.event.inputs.namespace }}
             gh_token: '${{ secrets.GHTOKEN }}'         
           
-          # Gerar ConfigMap
-        - name: ConfigMap-Generator
+          # Gerar Secret
+        - name: Secret-Generator
           uses: ./build-templates/.github/workflows/actions/secret-gen
           env:      
             environment: ${{ github.event.inputs.environment }}
