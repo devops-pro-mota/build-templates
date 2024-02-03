@@ -1,0 +1,48 @@
+on:
+  workflow_call:
+name: Secret-Generator
+runs:
+  using: 'composite'
+  steps:
+    - name: Secret-Generator
+      shell: bash
+      run: |
+        # Realiza a chamada para a API e armazena a resposta JSON em um arquivo temporário, filtro apenas por secret.
+        curl -k -X 'POST' 'https://192.168.0.93:32776/api/Dicionario/getDicionario' \
+          -H 'accept: text/plain' \
+          -H 'Content-Type: application/json' \
+          -d '{
+          "id": 0,
+          "aplicacao": "${{ github.event.repository.name }}",
+          "ambiente": "${{ env.environment }}",
+          "contexto": "secret"
+        }' > api_response.json
+
+        # Nome do arquivo de manifesto da secret, preciso montar o nome correto pegando o padrao de nomeclaturas
+        nome_arquivo="secret.yml"
+
+        # Gera o conteúdo da secret no formato YAML, verificar se vou precisar ajustaar o namespace da secret
+        conteudo_yaml="apiVersion: v1
+        kind: Secret
+        metadata:
+          name: minha-secret
+        type: Opaque
+        data:"
+
+        # Itera sobre cada par chave-valor no JSON retornado pela API
+        chaves=$(cat api_response.json | jq '.[] | .variavel')
+        for chave in $chaves
+        do
+          valor=$(cat api_response.json | jq -r ".[] | select(.variavel == $chave) | .valor")
+          valor_base64=$(echo -n $valor | base64)
+          conteudo_yaml="$conteudo_yaml
+          $chave: $valor_base64"
+        done
+
+        # Salva o conteúdo da secret no arquivo
+        echo "$conteudo_yaml" > $nome_arquivo
+        echo "Manifesto da Secret foi criado no arquivo $nome_arquivo."
+        cat $nome_arquivo
+        echo "iniciar processo para mover a secret para o repo do ALM, ficar junto com os manifestos"
+        # Remove o arquivo temporário da resposta da API
+        #rm api_response.json
