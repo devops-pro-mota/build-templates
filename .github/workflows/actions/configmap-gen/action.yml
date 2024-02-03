@@ -1,0 +1,49 @@
+on:
+  workflow_call:
+name: ConfigMap-Generator
+runs: 
+  using: 'composite'
+  steps:
+    - name: ConfigMap-Generator
+      shell: bash
+      run: |
+         # consultando API para criar ConfigMap / PortalDevOps
+         response=$(curl -k -s -X 'POST' 'https://192.168.0.93:32776/api/Dicionario/getDicionario' \
+            -H 'accept: text/plain' \
+            -H 'Content-Type: application/json' \
+            -d '{
+            "id": 0,
+            "aplicacao": "",
+            "ambiente": "",
+            "contexto": ""
+          }')
+
+          # valido se ocorreu algum erro na chamada da API
+          if [ $? -ne 0 ]; then
+            echo "Erro ao chamar a API"
+            exit 1
+          fi
+
+          # valido se a resposta da API PortalDevOps está vazia
+          if [ -z "$response" ]; then
+            echo "Resposta vazia da API"
+            exit 1
+          fi
+
+          # Modelo do ConfigMap inicial / poderia trazer direto da API
+          cat <<EOF > configmap.yaml
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: meu-configmap
+          data:
+          EOF
+
+          # Iterando sobre cada item no JSON de resposta e adiciona ao ConfigMap, meu filtro é aplicacao / ambiente / contexto
+          echo "$response" | jq -r '.[] | "  \(.variavel): \"\(.valor)\"" ' >> configmap.yaml
+
+          # Mostra o resultado, para validar
+          cat configmap.yaml
+
+          # Para aplicar o ConfigMap no Kubernetes / openshift (Preciso ver se vai subir para o github) / ArgoCD
+          kubectl apply -f configmap.yaml
