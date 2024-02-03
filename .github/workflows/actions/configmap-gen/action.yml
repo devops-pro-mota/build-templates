@@ -28,9 +28,11 @@ runs:
            echo "Resposta vazia da API"
            exit 1
          fi
-
+         
+         nome_arquivo="configmap.yml"
+         
          # Modelo do ConfigMap inicial / poderia trazer direto da API
-         cat <<EOF > configmap.yaml
+         cat <<EOF > $nome_arquivo
          apiVersion: v1
          kind: ConfigMap
          namespace: ${{ github.event.repository.name }}-${{ env.environment }}
@@ -39,9 +41,11 @@ runs:
          data:
          EOF
          # Iterando sobre cada item no JSON de resposta e adiciona ao ConfigMap, meu filtro é aplicacao / ambiente / contexto
-         echo "$response" | jq -r '.[] | "  \(.variavel): \"\(.valor)\"" ' >> configmap.yaml
+         echo "$response" | jq -r '.[] | "  \(.variavel): \"\(.valor)\"" ' >> $nome_arquivo
          # Mostra o resultado, para validar
-         cat configmap.yaml
+         echo "########## [  $nome_arquivo ] ############################"
+         cat $nome_arquivo
+         echo "########## [  Fim do Arquivo: $nome_arquivo ] ############"
 
          # Para aplicar o ConfigMap no Kubernetes / openshift (Preciso ver se vai subir para o github) / ArgoCD
          # kubectl apply -f configmap.yaml
