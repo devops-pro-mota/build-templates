@@ -30,12 +30,11 @@ runs:
          fi
          
          nome_arquivo="configmap.yml"
-         
+         #namespace: ${{ github.event.repository.name }}-${{ env.environment }}
          # Modelo do ConfigMap inicial / poderia trazer direto da API
          cat <<EOF > $nome_arquivo
          apiVersion: v1
          kind: ConfigMap
-         namespace: ${{ github.event.repository.name }}-${{ env.environment }}
          metadata:
            name: ${{ github.event.repository.name }}-cnf
          data:
