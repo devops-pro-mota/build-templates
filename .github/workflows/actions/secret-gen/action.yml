@@ -17,7 +17,17 @@ runs:
           "ambiente": "${{ env.environment }}",
           "contexto": "secret"
         }' > api_response.json
-
+        cat api_response.json
+         # valido se ocorreu algum erro na chamada da API
+         if [ $? -ne 0 ]; then
+           echo "Erro ao chamar a API"
+           exit 1
+         fi
+         # valido se a resposta da API PortalDevOps está vazia
+         # if [ -z "$response" ]; then
+         #   echo "Resposta vazia da API"
+         #   exit 1
+         # fi
         # Nome do arquivo de manifesto da secret, preciso montar o nome correto pegando o padrao de nomeclaturas
         nome_arquivo="secret.yml"
 
