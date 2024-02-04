@@ -153,7 +153,7 @@ jobs:
             environment: ${{ github.event.inputs.environment }}
             
           # executa step apenas se der sucesso
-        - uses: ./build-templates/.github/workflows/action/sucesso
+        - uses: ./build-templates/.github/workflows/actions/sucesso
           name: Sucesso de execução
           if: ${{ success() }}
           env:      
