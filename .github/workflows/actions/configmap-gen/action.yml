@@ -30,13 +30,14 @@ runs:
          fi
          
          nome_arquivo="configmap.yml"
-         #namespace: ${{ github.event.repository.name }}-${{ env.environment }}
+         #
          # Modelo do ConfigMap inicial / poderia trazer direto da API
          cat <<EOF > $nome_arquivo
          apiVersion: v1
          kind: ConfigMap
          metadata:
            name: ${{ github.event.repository.name }}-cnf
+           namespace: ${{ env.namespace }}-${{ env.environment }}
          data:
          EOF
          # Iterando sobre cada item no JSON de resposta e adiciona ao ConfigMap, meu filtro é aplicacao / ambiente / contexto
