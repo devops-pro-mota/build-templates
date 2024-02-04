@@ -35,8 +35,8 @@ runs:
         conteudo_yaml="apiVersion: v1
         kind: Secret
         metadata:
-          name: minha-secret
-          namespace: ${{ env.namespace }}-${{ env.environment }}
+          name: ${{ github.event.repository.name }}-sct
+          namespace: ${{ env.environment }}-${{ env.namespace }}
         type: Opaque
         data:"
 
