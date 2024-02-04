@@ -36,6 +36,7 @@ runs:
         kind: Secret
         metadata:
           name: minha-secret
+          namespace: ${{ env.namespace }}-${{ env.environment }}
         type: Opaque
         data:"
 
