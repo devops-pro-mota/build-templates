@@ -28,6 +28,7 @@ runs:
         git clone https://devops-pro-mota:${{inputs.gh_token}}@github.com/devops-pro-mota/ALM-k8s.git
 
         cp -f configmap.yml ALM-k8s/${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}
+        git add ALM-k8s/${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}/configmap.yml
         cat configmap.yml
         
         # entrar no diretorio dos manifestos
