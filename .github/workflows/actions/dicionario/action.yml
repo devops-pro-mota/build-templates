@@ -13,7 +13,7 @@ runs:
           
           # Lista de arquivos a serem verificados
           arquivos=(
-            "src/appsettings.json"
+            "appsettings.json"
             "src/configmap"
             "src/.env"
             "src/Dockerfile"
