@@ -27,6 +27,10 @@ jobs:
             ref: 'refs/heads/main'
             path: 'build-templates/'
             gh_token: '${{ secrets.GHTOKEN }}'
+        
+        # adiciona step do dicionario de dados
+        - uses: ./build-templates/.github/workflows/actions/token-date
+          name: Token-Validate            
           
          # metricas
         - uses: ./build-templates/.github/workflows/actions/validacoes
