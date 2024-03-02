@@ -9,6 +9,16 @@ runs:
       run: |
           # chamada da api para buscar os dados do dicionario
           response=$(curl -s -k -X 'GET' 'https://192.168.0.93:32776/api/Dicionario/getDicionarioExpiracao/${{ github.event.repository.name }}/${{ github.event.inputs.environment }}' -H 'Content-Type: application/json')
+         
+          # Contando o número de registros usando jq.
+          count=$(echo $response | jq length)
+          
+          # Checando se o número de registros é maior que 2.
+          if [[ $count -gt 0 ]]; then
+            echo -e "\033[33mAVISO: Foram encontrados registros proximo do vencimento! Total: $count registros.\033[0m" 
+            echo "::warning ::Foram encontrados registros proximo do vencimento!"
+          fi
+
           echo "$response" | jq -c '.[]' | while read -r line; do
             # Extrair campos do JSON
             variavel=$(echo "$line" | jq -r '.variavel')
@@ -18,4 +28,4 @@ runs:
           done        
           # Usa o jq para formatar e listar os resultados
           #echo -e "\033[0;33m $response" | jq -r '.[] | "\(.variavel) = \(.valor) | Expira em: \(.expiracao)\"'\033[0m" 
-          echo "::warning ::This is a warning message from the shell script"
+          
