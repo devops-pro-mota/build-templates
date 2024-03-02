@@ -9,6 +9,12 @@ runs:
       run: |
           # chamada da api para buscar os dados do dicionario
           response=$(curl -s -k -X 'GET' 'https://192.168.0.93:32776/api/Dicionario/getDicionarioExpiracao/${{ github.event.repository.name }}/${{ github.event.inputs.environment }}' -H 'Content-Type: application/json')
-                  
+          echo "$response" | jq -c '.[]' | while read -r line; do
+            # Extrair campos do JSON
+            variavel=$(echo "$line" | jq -r '.variavel')
+            valor=$(echo "$line" | jq -r '.valor')
+            expiracao=$(echo "$line" | jq -r '.expiracao')
+            echo -e "\033[0;33mVariável: $variavel, Valor: $valor, Expiração: $expiracao\033[0m"
+          done        
           # Usa o jq para formatar e listar os resultados
-          echo -e "\033[0;33m$response" | jq -r '.[] | "\(.variavel) = \(.valor) | Expira em: \(.expiracao)\"'\033[0m" 
+          #echo -e "\033[0;33m $response" | jq -r '.[] | "\(.variavel) = \(.valor) | Expira em: \(.expiracao)\"'\033[0m" 
