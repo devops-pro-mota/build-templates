@@ -11,4 +11,4 @@ runs:
           response=$(curl -s -k -X 'GET' 'https://192.168.0.93:32776/api/Dicionario/getDicionarioExpiracao/${{ github.event.repository.name }}/${{ github.event.inputs.environment }}' -H 'Content-Type: application/json')
                   
           # Usa o jq para formatar e listar os resultados
-          echo -e "\033[0;33m $response " | jq -r '.[] | "\(.variavel) = \(.valor) | Expira em: \(.expiracao)\"'
+          echo -e "\033[0;33m $response " | jq -r '.[] | "\(.variavel) = \(.valor) | Expira em: \(.expiracao)\033[0m"'
