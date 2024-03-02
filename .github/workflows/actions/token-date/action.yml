@@ -1,1 +1,49 @@
-d
+on:
+  workflow_call:
+name: Find Credentials
+runs: 
+  using: 'composite'
+  steps:
+    - name: Dicionary Replace
+      shell: bash
+      run: |
+          # chamada da api para buscar os dados do dicionario
+          api_response=$(curl -s -k -X 'GET' 'https://192.168.0.93:32776/api/Dicionario/getDicionarioEsteira/${{ github.event.repository.name }}/${{ github.event.inputs.environment }}' -H 'Content-Type: application/json')
+          
+          
+          # Lista de arquivos a serem verificados
+          arquivos=(
+            "appsettings.json"
+            "src/configmap"
+            "src/.env"
+            "src/Dockerfile"
+            # Adicione mais arquivos conforme necessário
+          )
+          
+          # Use 'jq' para iterar sobre cada objeto do array JSON e atualizar 'appsettings'.
+          echo "$api_response" | jq -c '.[]' | while read -r obj; do
+          
+              variavel=$(echo "$obj" | jq -r '.variavel')
+              valor=$(echo "$obj" | jq -r '.valor')
+              echo variavel=$(echo "$obj" | jq -r '.variavel')
+              echo valor=$(echo "$obj" | jq -r '.valor')
+          
+              # Iterar sobre cada arquivo e substituir a variável pelo valor.
+              for arquivo in "${arquivos[@]}"; do
+                  if [ -f "$arquivo" ]; then
+                      sed -i "s|#${variavel}#|${valor}|g" "$arquivo"
+                  fi
+              done
+          done
+          
+          # Exibir o conteúdo dos arquivos atualizados.
+          for arquivo in "${arquivos[@]}"; do
+              if [ -f "$arquivo" ]; then
+                  echo "########## [  $arquivo ] ############"
+                  echo "Ambiente: $ambiente"
+                  echo "Contexto app: $contexto"
+                  echo "Arquivo tokenizado: $arquivo"
+                  cat "$arquivo"
+                  echo "########## [ FIM ] ###############"
+              fi
+          done
