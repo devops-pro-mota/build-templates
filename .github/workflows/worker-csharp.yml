@@ -95,8 +95,8 @@ jobs:
         #     namespace: ${{ github.event.inputs.namespace }}
         
         # adiciona step do dicionario de dados
-        - uses: ./build-templates/.github/workflows/actions/dicionario
-          name: Dicionary replace
+        # - uses: ./build-templates/.github/workflows/actions/dicionario
+        #   name: Dicionary replace
       
           # executa step docker build e push
         - uses: ./build-templates/.github/workflows/release/docker-hub
