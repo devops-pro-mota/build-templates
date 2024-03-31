@@ -329,8 +329,8 @@ jobs:
             Gmud: ${{ github.event.inputs.Gmud }}   
             
         # adiciona step do dicionario de dados
-        - uses: ./build-templates/.github/workflows/actions/dicionario
-          name: Dicionary replace
+        # - uses: ./build-templates/.github/workflows/actions/dicionario
+        #   name: Dicionary replace
             
         # - uses: ./build-templates/.github/workflows/actions/validacoes
         #   name: Metrics Pipeline
