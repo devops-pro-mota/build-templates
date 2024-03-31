@@ -150,20 +150,20 @@ jobs:
             path: 'build-templates/'
 
           # Gerar ConfigMap
-        - name: ConfigMap-Generator
-          uses: ./build-templates/.github/workflows/actions/configmap-gen
-          env:      
-            environment: ${{ github.event.inputs.environment }}
-            namespace: ${{ github.event.inputs.namespace }}
-            gh_token: '${{ secrets.GHTOKEN }}'
+        # - name: ConfigMap-Generator
+        #   uses: ./build-templates/.github/workflows/actions/configmap-gen
+        #   env:      
+        #     environment: ${{ github.event.inputs.environment }}
+        #     namespace: ${{ github.event.inputs.namespace }}
+        #     gh_token: '${{ secrets.GHTOKEN }}'
           
           # Gerar Secret
-        - name: Secret-Generator
-          uses: ./build-templates/.github/workflows/actions/secret-gen
-          env:      
-            environment: ${{ github.event.inputs.environment }}
-            namespace: ${{ github.event.inputs.namespace }}
-            gh_token: '${{ secrets.GHTOKEN }}'   
+        # - name: Secret-Generator
+        #   uses: ./build-templates/.github/workflows/actions/secret-gen
+        #   env:      
+        #     environment: ${{ github.event.inputs.environment }}
+        #     namespace: ${{ github.event.inputs.namespace }}
+        #     gh_token: '${{ secrets.GHTOKEN }}'   
 
           # deploy k8s
         - name: Deploy Cluster k8s
@@ -174,18 +174,18 @@ jobs:
             gh_token: '${{ secrets.GHTOKEN }}'      
          
           #executar step apenas se der erro 
-        - uses: ./build-templates/.github/workflows/actions/falha
-          name: Falha de execução
-          if: ${{ failure() }}
-          env:      
-            environment: ${{ github.event.inputs.environment }}
+        # - uses: ./build-templates/.github/workflows/actions/falha
+        #   name: Falha de execução
+        #   if: ${{ failure() }}
+        #   env:      
+        #     environment: ${{ github.event.inputs.environment }}
 
-          # executa step apenas se der sucesso
-        - uses: ./build-templates/.github/workflows/actions/sucesso
-          name: Sucesso de execução
-          if: ${{ success() }}
-          env:      
-            environment: ${{ github.event.inputs.environment }}            
+        #   # executa step apenas se der sucesso
+        # - uses: ./build-templates/.github/workflows/actions/sucesso
+        #   name: Sucesso de execução
+        #   if: ${{ success() }}
+        #   env:      
+        #     environment: ${{ github.event.inputs.environment }}            
 
     # deploy-k8s-dev:
     #   runs-on: linux
