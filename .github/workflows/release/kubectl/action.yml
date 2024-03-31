@@ -14,7 +14,7 @@ runs:
       shell: bash
       run: |
         # selecionar contexto do kubernetes
-        kubectl config use-context local
+        #kubectl config use-context local
         
         # verificar se o namespace existe
         if [ "$(kubectl get ns --no-headers -o custom-columns=":metadata.name" | grep ${{ env.environment }}-${{ env.namespace }})" != "${{ env.environment }}-${{ env.namespace }}" ];then
