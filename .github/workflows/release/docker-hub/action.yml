@@ -41,5 +41,6 @@ runs:
                 # docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:latest --push .
                 if [ -d ${{ github.event.repository.name }} ] ; then
                   cd ${{ github.event.repository.name }}
+                fi  
                 docker buildx build -t rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID --push .
             fi
