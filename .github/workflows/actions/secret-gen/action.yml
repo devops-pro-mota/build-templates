@@ -8,7 +8,7 @@ runs:
       shell: bash
       run: |
         # Realiza a chamada para a API e armazena a resposta JSON em um arquivo temporário, filtro apenas por secret.
-        curl -k -X 'POST' 'https://192.168.0.93:32776/api/Dicionario/getDicionario' \
+        curl -X 'POST' 'https://dev-api-gestao.purecloud.com.br/api/Dicionario/getDicionario' \
           -H 'accept: text/plain' \
           -H 'Content-Type: application/json' \
           -d '{
