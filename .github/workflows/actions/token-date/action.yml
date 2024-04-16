@@ -8,7 +8,7 @@ runs:
       shell: bash
       run: |
           # chamada da api para buscar os dados do dicionario
-          response=$(curl -s -k -X 'GET' 'https://192.168.0.93:32776/api/Dicionario/getDicionarioExpiracao/${{ github.event.repository.name }}/${{ github.event.inputs.environment }}' -H 'Content-Type: application/json')
+          response=$(curl -s -k -X 'GET' 'https://dev-api-gestao.purecloud.com.br/api/Dicionario/getDicionarioExpiracao/${{ github.event.repository.name }}/${{ github.event.inputs.environment }}' -H 'Content-Type: application/json')
          
           # Contando o número de registros usando jq.
           count=$(echo $response | jq length)
