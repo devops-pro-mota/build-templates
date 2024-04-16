@@ -39,7 +39,7 @@ runs:
             IMAGE_BUILD_ID=$(curl -X 'GET' 'https://dev-api-gestao.purecloud.com.br/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
             echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
             
-            curl -k -X 'PUT' \
+            curl -X 'PUT' \
                       'https://dev-api-gestao.purecloud.com.br/api/Changes/updExecucaoChange' \
                       -H 'accept: text/plain' \
                       -H 'Content-Type: application/json' \
