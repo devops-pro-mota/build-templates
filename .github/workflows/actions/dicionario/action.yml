@@ -8,7 +8,7 @@ runs:
       shell: bash
       run: |
           # chamada da api para buscar os dados do dicionario
-          api_response=$(curl -s -k -X 'GET' 'https://192.168.0.93:32776/api/Dicionario/getDicionarioEsteira/${{ github.event.repository.name }}/${{ github.event.inputs.environment }}' -H 'Content-Type: application/json')
+          api_response=$(curl -s -k -X 'GET' 'https://dev-api-gestao.purecloud.com.br/api/Dicionario/getDicionarioEsteira/${{ github.event.repository.name }}/${{ github.event.inputs.environment }}' -H 'Content-Type: application/json')
           
           
           # Lista de arquivos a serem verificados
