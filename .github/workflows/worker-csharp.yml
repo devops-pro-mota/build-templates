@@ -32,36 +32,36 @@ jobs:
             gh_token: '${{ secrets.GHTOKEN }}'
 
           # Gerar ConfigMap
-        # - name: ConfigMap-Generator
-        #   uses: ./build-templates/.github/workflows/actions/configmap-gen
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
-        #     namespace: ${{ github.event.inputs.namespace }}
-        #     gh_token: '${{ secrets.GHTOKEN }}'         
+        - name: ConfigMap-Generator
+          uses: ./build-templates/.github/workflows/actions/configmap-gen
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}
+            gh_token: '${{ secrets.GHTOKEN }}'         
           
           # Gerar Secret
-        # - name: Secret-Generator
-        #   uses: ./build-templates/.github/workflows/actions/secret-gen
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
-        #     namespace: ${{ github.event.inputs.namespace }}
-        #     gh_token: '${{ secrets.GHTOKEN }}'                  
+        - name: Secret-Generator
+          uses: ./build-templates/.github/workflows/actions/secret-gen
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}
+            gh_token: '${{ secrets.GHTOKEN }}'                  
           
           # metricas
-        # - uses: ./build-templates/.github/workflows/actions/validacoes
-        #   name: Metrics Pipeline
-        #   env:      
-        #     solution: ${{ github.event.inputs.solution }}
-        #     environment: ${{ github.event.inputs.environment }}
-        #     namespace: ${{ github.event.inputs.namespace }}  
+        - uses: ./build-templates/.github/workflows/actions/validacoes
+          name: Metrics Pipeline
+          env:      
+            solution: ${{ github.event.inputs.solution }}
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}  
 
           # adiciona step para validar sonar
-        # - uses: ./build-templates/.github/workflows/actions/sonar
-        #   name: Sonar Validate 
+        - uses: ./build-templates/.github/workflows/actions/sonar
+          name: Sonar Validate 
 
           # adiciona step para validar find credentials
-        # - uses: ./build-templates/.github/workflows/actions/credenciais
-        #   name: Find Credentials       
+        - uses: ./build-templates/.github/workflows/actions/credenciais
+          name: Find Credentials       
           
           #executar step apenas se der erro 
         - uses: ./build-templates/.github/workflows/actions/falha
@@ -95,8 +95,8 @@ jobs:
         #     namespace: ${{ github.event.inputs.namespace }}
         
         # adiciona step do dicionario de dados
-        # - uses: ./build-templates/.github/workflows/actions/dicionario
-        #   name: Dicionary replace
+        - uses: ./build-templates/.github/workflows/actions/dicionario
+          name: Dicionary replace
       
           # executa step docker build e push
         - uses: ./build-templates/.github/workflows/release/docker-hub
@@ -107,12 +107,12 @@ jobs:
             gh_token: '${{ secrets.GHTOKEN }}'
 
           # executa step docker build e push
-        # - uses: ./build-templates/.github/workflows/actions/trivy
-        #   name: SAST com Trivy
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
-        #     projeto: ${{ github.event.repository.name }}
-        #     gh_token: '${{ secrets.GHTOKEN }}'
+        - uses: ./build-templates/.github/workflows/actions/trivy
+          name: SAST com Trivy
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            projeto: ${{ github.event.repository.name }}
+            gh_token: '${{ secrets.GHTOKEN }}'
 
             
 
@@ -124,12 +124,12 @@ jobs:
             environment: ${{ github.event.inputs.environment }}
             Gmud: ${{ github.event.inputs.Gmud }}
           # executa step apenas se der sucesso
-        # - uses: ./build-templates/.github/workflows/actions/sucesso
-        #   name: Sucesso de execução
-        #   if: ${{ success() }}
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
-        #     Gmud: ${{ github.event.inputs.Gmud }}
+        - uses: ./build-templates/.github/workflows/actions/sucesso
+          name: Sucesso de execução
+          if: ${{ success() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}
 
 
     deploy-k8s-dev:
@@ -150,20 +150,20 @@ jobs:
             path: 'build-templates/'
 
           # Gerar ConfigMap
-        # - name: ConfigMap-Generator
-        #   uses: ./build-templates/.github/workflows/actions/configmap-gen
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
-        #     namespace: ${{ github.event.inputs.namespace }}
-        #     gh_token: '${{ secrets.GHTOKEN }}'
+        - name: ConfigMap-Generator
+          uses: ./build-templates/.github/workflows/actions/configmap-gen
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}
+            gh_token: '${{ secrets.GHTOKEN }}'
           
           # Gerar Secret
-        # - name: Secret-Generator
-        #   uses: ./build-templates/.github/workflows/actions/secret-gen
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
-        #     namespace: ${{ github.event.inputs.namespace }}
-        #     gh_token: '${{ secrets.GHTOKEN }}'   
+        - name: Secret-Generator
+          uses: ./build-templates/.github/workflows/actions/secret-gen
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}
+            gh_token: '${{ secrets.GHTOKEN }}'   
 
           # deploy k8s
         - name: Deploy Cluster k8s
@@ -174,18 +174,18 @@ jobs:
             gh_token: '${{ secrets.GHTOKEN }}'      
          
           #executar step apenas se der erro 
-        # - uses: ./build-templates/.github/workflows/actions/falha
-        #   name: Falha de execução
-        #   if: ${{ failure() }}
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
+        - uses: ./build-templates/.github/workflows/actions/falha
+          name: Falha de execução
+          if: ${{ failure() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}
 
-        #   # executa step apenas se der sucesso
-        # - uses: ./build-templates/.github/workflows/actions/sucesso
-        #   name: Sucesso de execução
-        #   if: ${{ success() }}
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}            
+         # executa step apenas se der sucesso
+        - uses: ./build-templates/.github/workflows/actions/sucesso
+          name: Sucesso de execução
+          if: ${{ success() }}
+          env:      
+            environment: ${{ github.event.inputs.environment }}            
 
     # deploy-k8s-dev:
     #   runs-on: linux
@@ -214,14 +214,14 @@ jobs:
             gh_token: '${{ secrets.GHTOKEN }}'
             path: 'build-templates/'
   
-        # - uses: ./build-templates/.github/workflows/actions/validacoes
-        #   name: Metrics Pipeline
-        #   with:
-        #    ambiente: ${{ secrets.SNOWUSER }}
-        #   env:      
-        #     solution: ${{ github.event.inputs.solution }}
-        #     environment: ${{ github.event.inputs.environment }}
-        #     namespace: ${{ github.event.inputs.namespace }}  
+        - uses: ./build-templates/.github/workflows/actions/validacoes
+          name: Metrics Pipeline
+          with:
+           ambiente: ${{ secrets.SNOWUSER }}
+          env:      
+            solution: ${{ github.event.inputs.solution }}
+            environment: ${{ github.event.inputs.environment }}
+            namespace: ${{ github.event.inputs.namespace }}  
         
         # adiciona step do dicionario de dados
         - uses: ./build-templates/.github/workflows/actions/dicionario
@@ -329,14 +329,14 @@ jobs:
             Gmud: ${{ github.event.inputs.Gmud }}   
             
         # adiciona step do dicionario de dados
-        # - uses: ./build-templates/.github/workflows/actions/dicionario
-        #   name: Dicionary replace
+        - uses: ./build-templates/.github/workflows/actions/dicionario
+          name: Dicionary replace
             
-        # - uses: ./build-templates/.github/workflows/actions/validacoes
-        #   name: Metrics Pipeline
-        #   env:      
-        #     environment: ${{ github.event.inputs.environment }}
-        #     Gmud: ${{ github.event.inputs.Gmud }}  
+        - uses: ./build-templates/.github/workflows/actions/validacoes
+          name: Metrics Pipeline
+          env:      
+            environment: ${{ github.event.inputs.environment }}
+            Gmud: ${{ github.event.inputs.Gmud }}  
           # executa step docker build e push
         - uses: ./build-templates/.github/workflows/release/docker-hub
           name: Docker Build and Push (Release)
