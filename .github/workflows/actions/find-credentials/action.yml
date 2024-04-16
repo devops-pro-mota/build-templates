@@ -8,6 +8,7 @@ runs:
       shell: bash
       run: |
         diretorio="."
+        set -x
  
         # Iterar sobre todos os arquivos no diretório
         for arquivo in $diretorio/*; do
