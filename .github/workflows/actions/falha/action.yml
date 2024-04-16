@@ -22,7 +22,7 @@ runs:
           
           # atualizar api de metrics
           echo "PUT API"
-          curl -k -X 'PUT' \
+          curl -X 'PUT' \
                     'https://dev-api-gestao.purecloud.com.br/api/Evento/$GITHUB_RUN_ID' \
                     -H 'accept: text/plain' \
                     -H 'Content-Type: application/json' \
@@ -36,7 +36,7 @@ runs:
             echo "Gmud não informada."
           else  
             echo "Gmud informada: [ ${{ github.event.inputs.Gmud }} ]"
-            IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://dev-api-gestao.purecloud.com.br/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
+            IMAGE_BUILD_ID=$(curl -X 'GET' 'https://dev-api-gestao.purecloud.com.br/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
             echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
             
             curl -k -X 'PUT' \
@@ -51,7 +51,7 @@ runs:
                           }'
           fi       
 
-            curl -k -X 'POST' \
+            curl -X 'POST' \
                       'https://dev-api-gestao.purecloud.com.br/api/EventosLog' \
                       -H 'accept: text/plain' \
                       -H 'Content-Type: application/json' \
