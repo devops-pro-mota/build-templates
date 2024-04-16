@@ -43,7 +43,7 @@ runs:
         # baixar a imagem do docker hub referente a gmud aprovada 
         if ! [ -z "${{ github.event.inputs.Gmud }}" ]
         then
-          IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://192.168.0.93:32776/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
+          IMAGE_BUILD_ID=$(curl -k -X 'GET' 'https://dev-api-gestao.purecloud.com.br/api/Changes/getBuildIDGmud?gmud=${{ github.event.inputs.Gmud }}&recurso=${{ github.event.repository.name }}' -H 'accept: text/plain')
           echo "IMAGE_BUILD_ID=$(echo $IMAGE_BUILD_ID)" >> $GITHUB_ENV
           sed -E -i 's/${{ github.event.repository.name }}:[0-9]+/${{ github.event.repository.name }}:'$IMAGE_BUILD_ID/g deployments.yml
           kubectl apply -f . --recursive
