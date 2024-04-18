@@ -10,13 +10,14 @@ runs:
  
           # Execute o Trivy e obtenha o resumo dos resultados em formato Text/Plain. Tentei Json mas não consegui
           # Observação: este comando pressupõe que Trivy já está instalado e configurado na máquina local
+          touch trivy_results.json
           trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID > trivy_results.json
           # trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID # > trivy_results.json
           echo trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID
           # Use o jq para contar as entradas CVEs no JSON
           # Instale o jq caso ainda não esteja instalado na sua máquina
           content=$(cat trivy_results.json)
-          echo $content
+
           # Use o comando sed para extrair os valores e atribuí-los às variáveis
           UNKNOWN=$(echo $content | sed -n 's/.*UNKNOWN: \([0-9]*\).*/\1/p')
           LOW=$(echo $content | sed -n 's/.*LOW: \([0-9]*\).*/\1/p')
