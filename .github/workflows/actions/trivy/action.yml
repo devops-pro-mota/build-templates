@@ -11,6 +11,7 @@ runs:
           # Execute o Trivy e obtenha o resumo dos resultados em formato Text/Plain. Tentei Json mas não consegui
           # Observação: este comando pressupõe que Trivy já está instalado e configurado na máquina local
           trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID > trivy_results.json
+          trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID # > trivy_results.json
           echo trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID
           # Use o jq para contar as entradas CVEs no JSON
           # Instale o jq caso ainda não esteja instalado na sua máquina
