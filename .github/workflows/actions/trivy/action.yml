@@ -16,14 +16,14 @@ runs:
           echo trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID
           # Use o jq para contar as entradas CVEs no JSON
           # Instale o jq caso ainda não esteja instalado na sua máquina
-          content=$(cat trivy_results.json)
+    
 
           # Use o comando sed para extrair os valores e atribuí-los às variáveis
-          UNKNOWN=$(echo $content | sed -n 's/.*UNKNOWN: \([0-9]*\).*/\1/p' | head -n 1)
-          LOW=$(echo $content | sed -n 's/.*LOW: \([0-9]*\).*/\1/p' | head -n 1)
-          MEDIUM=$(echo $content | sed -n 's/.*MEDIUM: \([0-9]*\).*/\1/p' | head -n 1)
-          HIGH=$(echo $content | sed -n 's/.*HIGH: \([0-9]*\).*/\1/p' | head -n 1)
-          CRITICAL=$(echo $content | sed -n 's/.*CRITICAL: \([0-9]*\).*/\1/p' | head -n 1)
+          UNKNOWN=$(cat trivy_results.json | sed -n 's/.*UNKNOWN: \([0-9]*\).*/\1/p' | head -n 1)
+          LOW=$(cat trivy_results.json | sed -n 's/.*LOW: \([0-9]*\).*/\1/p' | head -n 1)
+          MEDIUM=$(cat trivy_results.json | sed -n 's/.*MEDIUM: \([0-9]*\).*/\1/p' | head -n 1)
+          HIGH=$(cat trivy_results.json | sed -n 's/.*HIGH: \([0-9]*\).*/\1/p' | head -n 1)
+          CRITICAL=$(cat trivy_results.json | sed -n 's/.*CRITICAL: \([0-9]*\).*/\1/p' | head -n 1)
           
           # Echo the values to verify that they're correct
           echo "UNKNOWN: $UNKNOWN"
