@@ -42,21 +42,13 @@ runs:
             -d '{
             "id": 0,
             "nomeRepositorio": "'${{ github.event.repository.name }}'",
-            "cve_low": "'$LOW'",
-            "cve_medium": "'$MEDIUM'",
-            "cve_high": "'$HIGH'",
-            "cve_critical": "'$CRITICAL'"         
+            "cve_low": $LOW,
+            "cve_medium": $MEDIUM,
+            "cve_high": $HIGH,
+            "cve_critical": $CRITICAL          
              }'
 
 
-          echo curl -X 'PUT' https://dev-api-gestao.purecloud.com.br/api/Analitics/0' -H 'accept: text/plain' -H 'Content-Type: application/json' -d '{
-            "id": 0,
-            "nomeRepositorio": "'${{ github.event.repository.name }}'",
-            "cve_low": "'$LOW'",
-            "cve_medium": "'$MEDIUM'",
-            "cve_high": "'$HIGH'",
-            "cve_critical": "'$CRITICAL'"         
-          }'
           
           cat trivy_results.json
           
