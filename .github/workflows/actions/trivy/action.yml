@@ -42,17 +42,17 @@ runs:
             -d '{
             "id": 0,
             "nomeRepositorio": "'${{ github.event.repository.name }}'",
-            "cve_low": "'$LOW'",
-            "cve_medium": "'$MEDIUM'",
-            "cve_high": "'$HIGH'",
-            "cve_critical": "'$CRITICAL'"          
+            "cve_low": ${LOW},
+            "cve_medium": ${MEDIUM},
+            "cve_high": ${HIGH},
+            "cve_critical": ${CRITICAL}          
              }'
 
-
+          
           
           cat trivy_results.json
           
           # Remova o arquivo JSON caso não queira mantê-lo
-          rm trivy_results.json
+          # rm trivy_results.json
           
               
