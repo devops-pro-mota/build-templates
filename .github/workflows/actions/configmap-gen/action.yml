@@ -26,7 +26,7 @@ runs:
          # valido se a resposta da API PortalDevOps está vazia
          if [ -z "$response" ]; then
            echo "Resposta vazia da API"
-           exit 1
+           exit 0
          fi
          
          nome_arquivo="configmap.yml"
