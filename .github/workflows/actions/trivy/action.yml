@@ -17,7 +17,7 @@ runs:
           # Use o jq para contar as entradas CVEs no JSON
           # Instale o jq caso ainda não esteja instalado na sua máquina
 
-          curl -k -X 'POST' -H "Content-Type: multipart/form-data" -F "Descricao=Descrição do arquivo" \
+          curl -X 'POST' -H "Content-Type: multipart/form-data" -F "Descricao=Descrição do arquivo" \
              -F "BuildId=$GITHUB_RUN_ID" \
              -F "RepoName=${{ github.event.repository.name }}" \
              -F "File=@trivy_results.txt" \
