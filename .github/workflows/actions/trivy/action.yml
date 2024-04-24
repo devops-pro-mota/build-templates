@@ -11,19 +11,25 @@ runs:
           # Execute o Trivy e obtenha o resumo dos resultados em formato Text/Plain. Tentei Json mas não consegui
           # Observação: este comando pressupõe que Trivy já está instalado e configurado na máquina local
           touch trivy_results.json
-          trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID > trivy_results.json
-          # trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID # > trivy_results.json
+          trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID > trivy_results.txt
+          # trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID # > trivy_results.txt
           echo trivy image rodrigomotadevops/${{ env.environment }}-${{ github.event.repository.name }}:$GITHUB_RUN_ID
           # Use o jq para contar as entradas CVEs no JSON
           # Instale o jq caso ainda não esteja instalado na sua máquina
+
+          curl -k -X 'POST' -H "Content-Type: multipart/form-data" -F "Descricao=Descrição do arquivo" \
+             -F "BuildId=$GITHUB_RUN_ID" \
+             -F "RepoName=${{ github.event.repository.name }}" \
+             -F "File=@trivy_results.txt" \
+             https://dev-api-gestao.purecloud.com.br/api/ResourceFile
     
 
           # Use o comando sed para extrair os valores e atribuí-los às variáveis
-          UNKNOWN=$(cat trivy_results.json | sed -n 's/.*UNKNOWN: \([0-9]*\).*/\1/p' | head -n 1)
-          LOW=$(cat trivy_results.json | sed -n 's/.*LOW: \([0-9]*\).*/\1/p' | head -n 1)
-          MEDIUM=$(cat trivy_results.json | sed -n 's/.*MEDIUM: \([0-9]*\).*/\1/p' | head -n 1)
-          HIGH=$(cat trivy_results.json | sed -n 's/.*HIGH: \([0-9]*\).*/\1/p' | head -n 1)
-          CRITICAL=$(cat trivy_results.json | sed -n 's/.*CRITICAL: \([0-9]*\).*/\1/p' | head -n 1)
+          UNKNOWN=$(cat trivy_results.txt | sed -n 's/.*UNKNOWN: \([0-9]*\).*/\1/p' | head -n 1)
+          LOW=$(cat trivy_results.txt | sed -n 's/.*LOW: \([0-9]*\).*/\1/p' | head -n 1)
+          MEDIUM=$(cat trivy_results.txt | sed -n 's/.*MEDIUM: \([0-9]*\).*/\1/p' | head -n 1)
+          HIGH=$(cat trivy_results.txt | sed -n 's/.*HIGH: \([0-9]*\).*/\1/p' | head -n 1)
+          CRITICAL=$(cat trivy_results.txt | sed -n 's/.*CRITICAL: \([0-9]*\).*/\1/p' | head -n 1)
           
           # Echo the values to verify that they're correct
           echo "UNKNOWN: $UNKNOWN"
