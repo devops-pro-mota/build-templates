@@ -61,5 +61,6 @@ runs:
           
           # Remova o arquivo JSON caso não queira mantê-lo
           rm trivy_results.txt
+          exit 0
           
               
