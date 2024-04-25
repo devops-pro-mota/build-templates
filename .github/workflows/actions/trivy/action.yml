@@ -56,11 +56,11 @@ runs:
 
           #echo curl -X 'PUT' 'https://dev-api-gestao.purecloud.com.br/api/Analitics/0' -H 'accept: text/plain' -H 'Content-Type: application/json' -d '{ "id": 0,"nomeRepositorio": "worker-processa-repo","cve_low": ${LOW},"cve_medium": $LOW,"cve_high": 5,"cve_critical": 10 }'
           #curl -X 'PUT' 'https://dev-api-gestao.purecloud.com.br/api/Analitics/0' -H 'accept: text/plain' -H 'Content-Type: application/json' -d '{ "id": 0,"nomeRepositorio": "worker-processa-repo","cve_low": ${LOW},"cve_medium": $LOW,"cve_high": 5,"cve_critical": 10 }'
-          
-          cat trivy_results.txt
+          exit 0
+          #cat trivy_results.txt
           
           # Remova o arquivo JSON caso não queira mantê-lo
-          rm trivy_results.txt
-          exit 0
+          #rm trivy_results.txt
+          
           
               
