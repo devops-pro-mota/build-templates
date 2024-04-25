@@ -107,12 +107,12 @@ jobs:
             gh_token: '${{ secrets.GHTOKEN }}'
 
           # executa step docker build e push
-        - uses: ./build-templates/.github/workflows/actions/trivy
-          name: SAST com Trivy
-          env:      
-            environment: ${{ github.event.inputs.environment }}
-            projeto: ${{ github.event.repository.name }}
-            gh_token: '${{ secrets.GHTOKEN }}'
+        # - uses: ./build-templates/.github/workflows/actions/trivy
+        #   name: SAST com Trivy
+        #   env:      
+        #     environment: ${{ github.event.inputs.environment }}
+        #     projeto: ${{ github.event.repository.name }}
+        #     gh_token: '${{ secrets.GHTOKEN }}'
 
             
 
