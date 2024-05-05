@@ -23,18 +23,7 @@ runs:
         else
           echo -e "\033[32m\033[1m NAMESPACE ${{ env.environment }}-${{ env.namespace }} ja existe"
         fi
-        
-        diretorio=$(find . -type f -name "versao.json" -exec dirname {} \; | head -n 1)
-        
-        # Verifica se o diretório foi encontrado
-        if [ -n "$diretorio" ]; then
-            cd "$diretorio"
-            sed -i "s/#versao#/$GITHUB_RUN_ID/g" versao.json
-            echo "Diretório encontrado e acesso: $diretorio"
-        else
-            echo "Arquivo 'versao.json' não encontrado."
-        fi
-        
+          
         # clonar um repositorio da aplicacao
         git clone https://devops-pro-mota:${{inputs.gh_token}}@github.com/devops-pro-mota/ALM-k8s.git
 
