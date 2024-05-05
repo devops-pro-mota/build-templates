@@ -38,7 +38,7 @@ runs:
         sed -E -i 's/Versao-RetryBuild=[0-9]+/Versao-RetryBuild='$GITHUB_RUN_NUMBER/g ingress.yml
         # colocar versao no arquivo versao.json
         if [ -f "version.json" ]; then
-          sed -i "s/#versao#/$GITHUB_RUN_ID/g" version.json
+          sed -i "s/#versao#/$GITHUB_RUN_ID/g" versao.json
         fi
         # encontrar a ocorrencia da imagem e alterar o build
         #sed -i 's/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/g' seu_arquivo.yml
