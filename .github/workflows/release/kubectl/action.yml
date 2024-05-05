@@ -35,7 +35,7 @@ runs:
         cd ALM-k8s/${{ env.namespace }}/${{ github.event.repository.name }}/${{ env.environment }}
 
         # controla a versao do ingress
-        sed -E -i 's/Versao-RetryBuild=[0-9]+/Versao-RetryBuild='$GITHUB_RUN_NUMBER/g ingress.yml
+        sed -E -i 's/Versao-RetryBuild:[0-9]+/Versao-RetryBuild:'$GITHUB_RUN_NUMBER/g ingress.yml
 
         # encontrar a ocorrencia da imagem e alterar o build
         #sed -i 's/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/rodrigomotadevops\/${{ env.environment }}-${{ github.event.repository.name }}:/g' seu_arquivo.yml
