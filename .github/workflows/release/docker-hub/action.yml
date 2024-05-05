@@ -20,6 +20,16 @@ runs:
       - name: pipeline metrics
         shell: bash
         run: |
+        
+            diretorio=$(find . -type f -name "versao.json" -exec dirname {} \; | head -n 1)
+            if [ -n "$diretorio" ]; then
+                cd "$diretorio"
+                sed -i "s/#versao#/$GITHUB_RUN_ID/g" versao.json
+                echo "Diretório encontrado e acesso: $diretorio"
+            else
+                echo "Arquivo 'versao.json' não encontrado."
+            fi
+            
             # baixar a imagem do docker hub referente a gmud aprovada 
             if ! [ -z "${{ github.event.inputs.Gmud }}" ]
             then
